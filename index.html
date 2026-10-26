@@ -24,14 +24,47 @@ h2{font-size:20px;margin:0 0 7px}.sub{font-size:13px;color:var(--muted);margin:0
 .membercard{border:1px solid #cdd9e6;border-radius:18px;overflow:hidden;max-width:410px;background:white}.membercard .top{background:var(--navy);color:white;padding:17px;display:flex;align-items:center;gap:12px}.membercard .seal{width:52px;height:52px;background:#fff;border-color:#fff}.membercard .body{padding:18px}.membercard .name{font-size:20px;font-weight:850}.membercard .number{font-size:12px;color:var(--muted);letter-spacing:1px}.membercard .foot{background:#f1f5f9;padding:10px 16px;font-size:11px;color:var(--muted)}
 .agenda{border:1px solid var(--line);padding:13px;border-radius:11px;margin:9px 0}.agenda strong{display:block}.agenda small{color:var(--muted)}
 footer{text-align:center;padding:20px;color:var(--muted);font-size:12px}
+.auth-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:22px;background:radial-gradient(circle at top right,#1d5c94 0,#102c50 48%,#08182b 100%);color:var(--ink)}
+.auth-shell{width:min(100%,520px);background:#fff;border:1px solid #d9e3ee;border-radius:22px;padding:clamp(22px,5vw,38px);box-shadow:0 24px 80px #0003}
+.auth-brand{display:flex;align-items:center;gap:14px;margin-bottom:20px}.auth-seal{width:66px;height:66px;border:2px solid var(--gold);border-radius:50%;padding:3px;object-fit:contain;background:#fff;flex-shrink:0}
+.auth-shell h1{font-size:clamp(24px,5vw,32px);line-height:1.15;margin:0;color:var(--navy)}.auth-shell .org-full{font-weight:750;color:var(--blue);margin:9px 0 8px}.auth-shell .auth-sub{color:var(--muted);margin:0 0 20px}
+.auth-switch{display:flex;gap:8px;margin:18px 0}.auth-switch button{flex:1;border:1px solid var(--line);border-radius:10px;padding:11px;background:#f5f8fb;color:var(--navy);font-weight:800}.auth-switch button.active{background:var(--navy);color:#fff}
+.auth-notice{background:#fff8e9;border:1px solid #efd18b;color:#694b08;border-radius:10px;padding:11px 12px;font-size:12px;margin-top:16px}.auth-error{color:#a82d38;font-size:13px;margin:10px 0}.auth-submit{width:100%;padding:12px;border:0;border-radius:10px;background:var(--blue);color:white;font-weight:800}.auth-title{font-size:19px;margin:0 0 12px}.auth-help{font-size:12px;color:var(--muted);margin-top:8px}
 @media(max-width:760px){.stat{grid-column:span 6}.two,.three{grid-column:span 12}.quick{grid-template-columns:repeat(2,1fr)}.row{grid-template-columns:1fr}.card{padding:16px}.brand{align-items:flex-start}.seal{width:46px;height:46px}}
 @media print{body{background:white}.no-print,header,nav,footer{display:none!important}.wrap{padding:0}.membercard{max-width:100%;border:2px solid #333}}
 </style></head>
 <body>
+<section id="welcomeScreen" class="auth-screen">
+  <div class="auth-shell">
+    <div class="auth-brand"><img class="auth-seal" src="https://i1.sndcdn.com/avatars-000287066435-gunwr5-t1080x1080.jpg" alt="Lambang GSPMII"><div><h1>Selamat Datang</h1><div style="color:var(--muted);font-size:13px">Portal Anggota Cikokol Raya</div></div></div>
+    <div class="org-full">Gabungan Serikat Pekerja Manufaktur Independen Indonesia (GSPMII)</div>
+    <p class="auth-sub">Portal keanggotaan untuk pendaftaran, informasi organisasi, dan administrasi anggota GSPMII Cikokol Raya.</p>
+    <div class="auth-switch"><button type="button" id="showLogin" class="active">Masuk</button><button type="button" id="showRegister">Registrasi</button></div>
+    <form id="loginForm">
+      <h2 class="auth-title">Masuk ke akun</h2>
+      <div class="field"><label for="loginEmail">Email</label><input id="loginEmail" type="email" autocomplete="username" placeholder="nama@email.com" required></div>
+      <div class="field"><label for="loginPassword">Kata sandi</label><input id="loginPassword" type="password" autocomplete="current-password" minlength="8" placeholder="Minimal 8 karakter" required></div>
+      <div id="loginError" class="auth-error" role="alert"></div>
+      <button class="auth-submit" type="submit">Masuk</button>
+      <p class="auth-help">Belum punya akun? Pilih tab Registrasi.</p>
+    </form>
+    <form id="signupForm" class="hidden">
+      <h2 class="auth-title">Buat akun baru</h2>
+      <div class="field"><label for="signupEmail">Email aktif</label><input id="signupEmail" type="email" autocomplete="email" placeholder="nama@email.com" required></div>
+      <div class="field"><label for="signupPassword">Buat kata sandi</label><input id="signupPassword" type="password" autocomplete="new-password" minlength="8" placeholder="Minimal 8 karakter" required></div>
+      <div class="field"><label for="signupConfirm">Ulangi kata sandi</label><input id="signupConfirm" type="password" autocomplete="new-password" minlength="8" placeholder="Ketik ulang kata sandi" required></div>
+      <div id="signupError" class="auth-error" role="alert"></div>
+      <button class="auth-submit" type="submit">Daftar akun</button>
+      <p class="auth-help">Pendaftaran akun portal bukan otomatis berarti keanggotaan serikat disetujui. Keanggotaan tetap perlu diverifikasi pengurus.</p>
+    </form>
+    <div class="auth-notice"><strong>Catatan penting:</strong> ini masih prototipe. Akun hanya tersimpan di browser/perangkat ini dan belum terhubung ke database atau layanan autentikasi online. Jangan gunakan kata sandi penting atau kata sandi yang dipakai di layanan lain. Untuk akun lintas perangkat dan keamanan sebenarnya, website perlu dihubungkan ke layanan autentikasi dan database yang aman.</div>
+  </div>
+</section>
+<div id="portalApp" class="hidden">
 <header><div class="brand"><div class="seal"><img src="https://i1.sndcdn.com/avatars-000287066435-gunwr5-t1080x1080.jpg" alt="Lambang GSPMII"></div><div><h1>Portal Anggota GSPMII Cikokol Raya</h1><p>Solidaritas · Transparansi · Perlindungan dan edukasi pekerja</p></div></div></header>
 <main class="wrap">
 <nav class="no-print">
-<button class="active" data-tab="home">Beranda</button><button data-tab="members">Data Anggota</button><button data-tab="register">Formulir Anggota</button><button data-tab="verify">Verifikasi</button><button data-tab="cards">Kartu Anggota</button><button data-tab="agenda">Pengumuman & Agenda</button><button data-tab="profile">Profil Organisasi</button><button data-tab="backup">Ekspor & Cadangan</button>
+<button class="active" data-tab="home">Beranda</button><button data-tab="members">Data Anggota</button><button data-tab="register">Formulir Anggota</button><button data-tab="verify">Verifikasi</button><button data-tab="cards">Kartu Anggota</button><button data-tab="agenda">Pengumuman & Agenda</button><button data-tab="profile">Profil Organisasi</button><button data-tab="backup">Ekspor & Cadangan</button><button type="button" id="logoutBtn" class="btn danger">Keluar</button>
 </nav>
 <section id="home" class="tab"><div class="grid">
 <div class="stat"><div class="num" id="total">0</div><div class="label">Total anggota terdaftar</div></div><div class="stat"><div class="num" id="active">0</div><div class="label">Anggota aktif</div></div><div class="stat"><div class="num" id="newCount">0</div><div class="label">Bergabung bulan ini</div></div><div class="stat"><div class="num" id="pending">0</div><div class="label">Menunggu verifikasi</div></div>
@@ -53,6 +86,7 @@ footer{text-align:center;padding:20px;color:var(--muted);font-size:12px}
 <section id="profile" class="tab hidden"><div class="grid"><div class="card"><h2>Profil GSPMII Cikokol Raya</h2><p>Portal ini dirancang untuk mendukung pendataan anggota, penyampaian informasi, dan tertib administrasi organisasi.</p><div class="notice">Lengkapi nama lengkap resmi organisasi, nomor pencatatan, wilayah kerja, serta struktur kepengurusan berdasarkan dokumen yang sah. Hindari menampilkan data pribadi anggota secara terbuka.</div><div class="field"><label>Nama lengkap organisasi</label><input value="GSPMII Cikokol Raya" id="orgName"></div><div class="field"><label>Visi</label><textarea id="vision">Mewujudkan organisasi yang solid, mandiri, transparan, dan memperjuangkan hak serta kesejahteraan anggota secara sah dan bertanggung jawab.</textarea></div><div class="field"><label>Misi</label><textarea id="mission">Meningkatkan edukasi ketenagakerjaan; membangun solidaritas; mendorong dialog dan penyelesaian perselisihan sesuai aturan; menjaga administrasi organisasi secara tertib.</textarea></div><div class="field"><label>Kontak resmi (opsional)</label><input id="orgContact" placeholder="Email atau WhatsApp organisasi"></div><button class="btn" id="saveProfile">Simpan profil pada perangkat</button></div></div></section>
 <section id="backup" class="tab hidden"><div class="grid"><div class="card two"><h2>Ekspor data ke Excel</h2><p>Ekspor daftar anggota dalam format CSV yang bisa dibuka dengan Microsoft Excel atau aplikasi spreadsheet lain.</p><button class="btn" id="exportAll">Unduh daftar anggota (CSV)</button></div><div class="card two"><h2>Cadangan dan pemulihan</h2><p>Unduh cadangan lokal data anggota, agenda, dan profil. Simpan file dengan aman karena dapat berisi data pribadi.</p><div class="actions"><button class="btn" id="backupBtn">Unduh cadangan JSON</button><button class="btn secondary" id="restoreBtn">Pulihkan cadangan</button><input class="hidden" type="file" id="restoreFile" accept=".json,application/json"></div></div><div class="card"><h2>Hak akses pengurus — tahap berikutnya</h2><p>Untuk membatasi pengelolaan data hanya kepada pengurus, website perlu dipasang pada layanan hosting dengan autentikasi dan database sisi server. Password tidak aman jika hanya disimpan di file HTML.</p><p class="small">Jangan gunakan versi prototipe ini untuk menyimpan NIK nyata atau menyebarkan data keanggotaan. Fitur login belum diaktifkan.</p></div></div></section>
 <footer>Portal Anggota GSPMII Cikokol Raya · Prototipe administrasi · Gunakan data secara bertanggung jawab</footer></main>
+</div>
 <script>
 const DB='gspmii_cikokol_v2';let state={members:[],agendas:[],profile:{}};try{state=Object.assign(state,JSON.parse(localStorage.getItem(DB)||'{}'))}catch(e){}
 const $=id=>document.getElementById(id);const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));function save(){localStorage.setItem(DB,JSON.stringify(state));renderAll()}
@@ -82,5 +116,11 @@ $('backupBtn').onclick=()=>{let blob=new Blob([JSON.stringify(state,null,2)],{ty
 $('restoreBtn').onclick=()=>$('restoreFile').click();$('restoreFile').onchange=async e=>{let f=e.target.files[0];if(!f)return;try{let d=JSON.parse(await f.text());if(!Array.isArray(d.members)||!Array.isArray(d.agendas))throw Error();if(confirm('Pulihkan cadangan? Data saat ini akan diganti.')){state=d;save();alert('Cadangan berhasil dipulihkan pada browser ini.')}}catch(err){alert('File cadangan tidak valid.')}e.target.value=''};
 $('saveProfile').onclick=()=>{state.profile={name:$('orgName').value,vision:$('vision').value,mission:$('mission').value,contact:$('orgContact').value};save();alert('Profil disimpan pada browser ini.')};
 function renderAll(){let now=new Date();$('total').textContent=state.members.length;$('active').textContent=state.members.filter(m=>m.status==='Aktif').length;$('pending').textContent=state.members.filter(m=>m.status==='Menunggu verifikasi').length;$('newCount').textContent=state.members.filter(m=>{if(!m.joined)return false;let d=new Date(m.joined+'T12:00:00');return d.getMonth()===now.getMonth()&&d.getFullYear()===now.getFullYear()}).length;renderMembers();renderVerify();renderAgenda();let latest=[...state.members].sort((a,b)=>(b.created||'').localeCompare(a.created||'')).slice(0,5);$('recent').innerHTML=latest.length?memberRows(latest,false):'<div class="empty">Belum ada pendaftaran.</div>';if(!$('cards').classList.contains('hidden'))renderCard()}
-clearForm();renderAll();
-</script></body></html>
+// Autentikasi lokal untuk prototipe saja. Akun tidak tersinkron antarperangkat.
+const ACCOUNTS_KEY='gspmii_local_accounts_v1';
+function getLocalAccounts(){try{return JSON.parse(localStorage.getItem(ACCOUNTS_KEY)||'{}')}catch(e){return {}}}
+function setAuthMode(mode){const login=mode==='login';$('loginForm').classList.toggle('hidden',!login);$('signupForm').classList.toggle('hidden',login);$('showLogin').classList.toggle('active',login);$('showRegister').classList.toggle('active',!login);$('loginError').textContent='';$('signupError').textContent=''}
+$('showLogin').onclick=()=>setAuthMode('login');$('showRegister').onclick=()=>setAuthMode('signup');
+async function passwordDigest(password,salt){if(!window.crypto||!crypto.subtle)throw new Error('Browser tidak mendukung penyimpanan kata sandi prototipe. Gunakan browser terbaru.');const bytes=new TextEncoder().encode(salt+password);const hash=await crypto.subtle.digest('SHA-256',bytes);return Array.from(new Uint8Array(hash)).map(b=>b.toString(16).padStart(2,'0')).join('')}
+function enterPortal(email){sessionStorage.setItem('gspmii_demo_session',email);$('welcomeScreen').classList.add('hidden');$('portalApp').classList.remove('hidden');const b=$('logoutBtn');if(b)b.textContent='Keluar ('+email+')';window.scrollTo(0,0)}
+$('signupForm').onsubmit=async e=>{e.preventDefault();$('signupError').textContent='';const email=$('signupEmail').value.trim().toLowerCase(),pass=$('signupPassword').value,confirmPass=$('signupConfirm').value;if(pass.length<8){$('signupError').textContent='Kata sandi minimal 8 karakter.';return}if(pass!==confirmPass){$('signupError').textContent='Kata sandi dan pengulangannya tidak sama.';return}const accounts=getLocalAccounts();if(accounts[email]){$('signup
