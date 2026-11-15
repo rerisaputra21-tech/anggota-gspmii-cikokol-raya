@@ -1,3 +1,7 @@
+<button class="tombol-tema" id="tombolTema"
+onclick="gantiTema()">
+🌙 Mode Gelap
+</button>
 <!doctype html>
 <html lang="id">
 <head>
@@ -5,7 +9,33 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#102c50">
 <title>Portal Anggota | GSPMII Cikokol Raya</title>
-<style>
+<style>function aturTema() {
+  const tema = localStorage.getItem("tema-gspmii") || "terang";
+
+  document.body.classList.toggle("tema-gelap", tema === "gelap");
+
+  const tombol = document.getElementById("tombolTema");
+
+  if (tombol) {
+    tombol.innerHTML = tema === "gelap"
+      ? "☀️ Mode Terang"
+      : "🌙 Mode Gelap";
+  }
+}
+
+function gantiTema() {
+  const temaSekarang =
+    localStorage.getItem("tema-gspmii") || "terang";
+
+  const temaBaru = temaSekarang === "gelap"
+    ? "terang"
+    : "gelap";
+
+  localStorage.setItem("tema-gspmii", temaBaru);
+  aturTema();
+}
+
+aturTema();
 :root{--navy:#102c50;--blue:#1d5c94;--bg:#f3f6fa;--line:#dbe3ec;--text:#172536}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--text);font:15px system-ui,sans-serif}
