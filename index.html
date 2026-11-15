@@ -1,66 +1,425 @@
+
 <!doctype html>
 <html lang="id">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#102c50">
 <title>Portal Anggota | GSPMII Cikokol Raya</title>
 <style>
-:root{--navy:#102c50;--blue:#1d5c94;--gold:#efb84e;--bg:#f3f6fa;--line:#dbe3ec;--text:#172536}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px system-ui,-apple-system,Segoe UI,sans-serif}header{background:linear-gradient(120deg,#0a1e36,var(--navy),var(--blue));color:#fff;padding:20px 16px}.head,.wrap{max-width:920px;margin:auto}.brand{display:flex;align-items:center;gap:12px}.brand img{width:52px;height:52px;border-radius:50%;object-fit:cover;background:#fff}.brand h1{font-size:clamp(19px,4vw,28px);margin:0}.brand p{margin:4px 0 0;color:#d6e6f6;font-size:13px}.wrap{padding:18px 14px 40px}.card{background:white;border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:14px;box-shadow:0 4px 14px #102c500a}.hidden{display:none!important}h2{font-size:20px;margin:0 0 8px}h3{font-size:16px;margin:0 0 10px}.muted{color:#637387;font-size:13px}.tabs{display:flex;gap:8px;margin:14px 0}.tabs button,.btn{border:0;border-radius:9px;padding:11px 14px;font-weight:650;cursor:pointer;background:var(--blue);color:white}.tabs button.secondary,.btn.secondary{background:#e8eef5;color:var(--navy)}label{display:block;font-size:13px;font-weight:650;margin:12px 0 5px}input,textarea{width:100%;border:1px solid #cbd5e1;border-radius:8px;padding:11px;font:inherit;background:white}textarea{min-height:80px;resize:vertical}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}.status{padding:10px 12px;border-radius:8px;background:#eef5ff;color:#153e66;font-size:13px;margin:12px 0}.status.err{background:#fff0ef;color:#8a241c}.status.ok{background:#eaf8ee;color:#17602d}.tablewrap{overflow:auto}table{width:100%;border-collapse:collapse;min-width:500px}th,td{text-align:left;padding:10px;border-bottom:1px solid var(--line);font-size:13px}th{background:#f3f6fa}.pill{display:inline-block;border-radius:30px;padding:4px 8px;background:#fff0cc;color:#674600;font-size:12px}footer{text-align:center;color:#6b7b8d;font-size:12px;padding:12px}
+:root{--navy:#102c50;--blue:#1d5c94;--bg:#f3f6fa;--line:#dbe3ec;--text:#172536}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:15px system-ui,sans-serif}
+header{background:linear-gradient(120deg,#0a1e36,var(--navy),var(--blue));color:white;padding:20px 16px}
+.head,.wrap{max-width:920px;margin:auto}
+.brand{display:flex;align-items:center;gap:12px}
+.brand img{width:52px;height:52px;border-radius:50%;object-fit:cover;background:white}
+.brand h1{font-size:clamp(19px,4vw,28px);margin:0}
+.brand p{margin:4px 0 0;color:#d6e6f6;font-size:13px}
+.wrap{padding:18px 14px 40px}
+.card{background:white;border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:14px;box-shadow:0 4px 14px #102c500a}
+.hidden{display:none!important}
+h2{font-size:20px;margin:0 0 8px}
+h3{font-size:16px;margin:0 0 10px}
+.muted{color:#637387;font-size:13px}
+.tabs{display:flex;gap:8px;margin:14px 0}
+.tabs button,.btn{border:0;border-radius:9px;padding:11px 14px;font-weight:650;cursor:pointer;background:var(--blue);color:white}
+.tabs button.secondary,.btn.secondary{background:#e8eef5;color:var(--navy)}
+label{display:block;font-size:13px;font-weight:650;margin:12px 0 5px}
+input,textarea{width:100%;border:1px solid #cbd5e1;border-radius:8px;padding:11px;font:inherit;background:white}
+input[type=checkbox]{width:auto}
+textarea{min-height:80px;resize:vertical}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.status{padding:10px 12px;border-radius:8px;background:#eef5ff;color:#153e66;font-size:13px;margin:12px 0}
+.status.err{background:#fff0ef;color:#8a241c}
+.status.ok{background:#eaf8ee;color:#17602d}
+.pill{display:inline-block;border-radius:30px;padding:4px 8px;background:#fff0cc;color:#674600;font-size:12px}
+.linkbtn{border:0;background:none;padding:8px 0;color:#1d5c94;text-decoration:underline;font:inherit;cursor:pointer}
+footer{text-align:center;color:#6b7b8d;font-size:12px;padding:12px}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
-<header><div class="head brand"><img src="https://i1.sndcdn.com/avatars-000287066435-gunwr5-t1080x1080.jpg" alt="Logo GSPMII"><div><h1>GSPMII CIKOKOL RAYA</h1><p>Gabungan Serikat Pekerja Manufaktur Independen Indonesia</p></div></div></header>
+<header>
+<div class="head brand">
+<img src="https://i1.sndcdn.com/avatars-000287066435-gunwr5-t1080x1080.jpg" alt="Logo GSPMII">
+<div>
+<h1>GSPMII CIKOKOL RAYA</h1>
+<p>Gabungan Serikat Pekerja Manufaktur Independen Indonesia</p>
+</div>
+</div>
+</header>
+
 <main class="wrap">
 <section id="auth" class="card">
-<h2>Portal Anggota</h2><p class="muted">Masuk atau daftarkan akun anggota. Data profil disimpan di database Supabase.</p>
-<div class="tabs"><button id="tabLogin">Masuk</button><button id="tabRegister" class="secondary">Daftar Anggota</button></div>
+<h2>Portal Anggota</h2>
+<p class="muted">Masuk atau daftarkan akun anggota. Data profil disimpan di database Supabase.</p>
+
+<div class="tabs">
+<button id="tabLogin">Masuk</button>
+<button id="tabRegister" class="secondary">Daftar Anggota</button>
+</div>
+
 <div id="authMessage" class="status hidden"></div>
-<form id="loginForm"><label>Email</label><input id="loginEmail" type="email" autocomplete="email" required><label>Kata sandi</label><input id="loginPassword" type="password" autocomplete="current-password" required><p><button class="btn" type="submit">Masuk</button></p></form>
-<form id="registerForm" class="hidden"><div class="grid"><div><label>Nama lengkap</label><input id="nama" required maxlength="120"></div><div><label>Nomor HP</label><input id="hp" type="tel" maxlength="30"></div></div><label>Alamat</label><textarea id="alamat" maxlength="500"></textarea><label>Email</label><input id="regEmail" type="email" autocomplete="email" required><label>Kata sandi (minimal 8 karakter)</label><input id="regPassword" type="password" minlength="8" autocomplete="new-password" required><label><input id="agree" type="checkbox" required style="width:auto"> Saya menyatakan data yang diisi benar.</label><p><button class="btn" type="submit">Buat Akun & Daftar</button></p><p class="muted">Biaya pendaftaran yang diinformasikan pengurus: Rp110.000. Konfirmasi pembayaran hanya melalui pengurus resmi.</p></form>
+
+<form id="loginForm">
+<label>Email</label>
+<input id="loginEmail" type="email" autocomplete="email" required>
+<label>Kata sandi</label>
+<input id="loginPassword" type="password" autocomplete="current-password" required>
+<p>
+<button class="btn" type="submit">Masuk</button>
+<button class="linkbtn" id="forgotButton" type="button">Lupa kata sandi?</button>
+</p>
+</form>
+
+<form id="registerForm" class="hidden">
+<div class="grid">
+<div>
+<label>Nama lengkap</label>
+<input id="nama" required maxlength="120">
+</div>
+<div>
+<label>Nomor HP</label>
+<input id="hp" type="tel" maxlength="30">
+</div>
+</div>
+<label>Alamat</label>
+<textarea id="alamat" maxlength="500"></textarea>
+<label>Email</label>
+<input id="regEmail" type="email" autocomplete="email" required>
+<label>Kata sandi (minimal 8 karakter)</label>
+<input id="regPassword" type="password" minlength="8" autocomplete="new-password" required>
+<label><input id="agree" type="checkbox" required> Saya menyatakan data yang diisi benar.</label>
+<p><button class="btn" type="submit">Buat Akun & Daftar</button></p>
+<p class="muted">Biaya pendaftaran: Rp110.000. Konfirmasi pembayaran hanya melalui pengurus resmi.</p>
+</form>
+
+<form id="forgotForm" class="hidden">
+<h3>Reset kata sandi</h3>
+<p class="muted">Masukkan email akun. Tautan untuk membuat kata sandi baru akan dikirim ke email tersebut.</p>
+<label>Email akun</label>
+<input id="forgotEmail" type="email" autocomplete="email" required>
+<p>
+<button class="btn" type="submit">Kirim tautan reset</button>
+<button class="btn secondary" id="backLogin" type="button">Kembali</button>
+</p>
+</form>
+
+<form id="resetForm" class="hidden">
+<h3>Buat kata sandi baru</h3>
+<p class="muted">Masukkan kata sandi baru minimal 8 karakter.</p>
+<label>Kata sandi baru</label>
+<input id="newPassword" type="password" minlength="8" autocomplete="new-password" required>
+<label>Ulangi kata sandi baru</label>
+<input id="confirmPassword" type="password" minlength="8" autocomplete="new-password" required>
+<p><button class="btn" type="submit">Simpan kata sandi baru</button></p>
+</form>
 </section>
+
 <section id="dashboard" class="hidden">
-<div class="card"><div style="display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap"><div><h2>Beranda Anggota</h2><p class="muted" id="who"></p></div><button class="btn secondary" id="logout">Keluar</button></div><div id="dashMessage" class="status hidden"></div></div>
-<div class="card"><h3>Profil Keanggotaan</h3><div id="profile"></div><p class="muted">Status keanggotaan akan diverifikasi pengurus. Jangan bagikan kata sandi kepada siapa pun.</p></div>
-<div class="card"><h3>Perbarui nomor HP dan alamat</h3><form id="profileForm"><label>Nomor HP</label><input id="editHp" type="tel" maxlength="30"><label>Alamat</label><textarea id="editAlamat" maxlength="500"></textarea><p><button class="btn" type="submit">Simpan Profil</button></p></form></div>
+<div class="card">
+<div style="display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap">
+<div><h2>Beranda Anggota</h2><p class="muted" id="who"></p></div>
+<button class="btn secondary" id="logout">Keluar</button>
+</div>
+<div id="dashMessage" class="status hidden"></div>
+</div>
+
+<div class="card">
+<h3>Profil Keanggotaan</h3>
+<div id="profile"></div>
+<p class="muted">Status keanggotaan akan diverifikasi pengurus. Jangan bagikan kata sandi kepada siapa pun.</p>
+</div>
+
+<div class="card">
+<h3>Perbarui nomor HP dan alamat</h3>
+<form id="profileForm">
+<label>Nomor HP</label>
+<input id="editHp" type="tel" maxlength="30">
+<label>Alamat</label>
+<textarea id="editAlamat" maxlength="500"></textarea>
+<p><button class="btn" type="submit">Simpan Profil</button></p>
+</form>
+</div>
 </section>
 <footer>Portal Anggota · GSPMII Cikokol Raya</footer>
 </main>
+
 <script>
 (() => {
 const SUPABASE_URL = "https://iyytbgwjkznngowptsqo.supabase.co";
 const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_rot8WQ443SBPE5hEPLLg4A_a5ix05wh";
+const REDIRECT_URL = "https://rerisaputra21-tech.github.io/anggota-gspmii-cikokol-raya/";
+
 const $ = id => document.getElementById(id);
-let client, currentUser, member;
-function message(el, text, type=""){el.textContent=text;el.className="status"+(type?" "+type:"");el.classList.remove("hidden")}
+let client, currentUser, member, recoveryMode = false;
+
+function message(el,text,type=""){
+ el.textContent=text;
+ el.className="status"+(type?" "+type:"");
+ el.classList.remove("hidden");
+}
 function clearMessage(el){el.classList.add("hidden")}
-function setMode(mode){const login=mode==="login";$("loginForm").classList.toggle("hidden",!login);$("registerForm").classList.toggle("hidden",login);$("tabLogin").classList.toggle("secondary",!login);$("tabRegister").classList.toggle("secondary",login);clearMessage($("authMessage"))}
-$("tabLogin").onclick=()=>setMode("login");$("tabRegister").onclick=()=>setMode("register");
-function configured(){return SUPABASE_URL.startsWith("https://")&&!SUPABASE_URL.includes("ISI_")&&!SUPABASE_PUBLISHABLE_KEY.includes("ISI_")}
-function clean(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+
+function setView(view){
+ const forms={
+  login:"loginForm",
+  register:"registerForm",
+  forgot:"forgotForm",
+  reset:"resetForm"
+ };
+ Object.entries(forms).forEach(([name,id])=>{
+  $(id).classList.toggle("hidden",name!==view);
+ });
+ $("tabLogin").classList.toggle("secondary",view!=="login");
+ $("tabRegister").classList.toggle("secondary",view!=="register");
+ clearMessage($("authMessage"));
+}
+
+$("tabLogin").onclick=()=>setView("login");
+$("tabRegister").onclick=()=>setView("register");
+$("forgotButton").onclick=()=>{
+ $("forgotEmail").value=$("loginEmail").value.trim();
+ setView("forgot");
+};
+$("backLogin").onclick=()=>setView("login");
+
+function clean(v){
+ return String(v??"").replace(/[&<>"']/g,c=>({
+  "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+ }[c]));
+}
+
 async function loadProfile(){
- const {data,error}=await client.from("anggota_gspmii").select("id,user_id,nomor_anggota,nama_lengkap,email,no_hp,alamat,tanggal_daftar").eq("user_id",currentUser.id).maybeSingle();
- if(error){message($("dashMessage"),"Login berhasil, tetapi profil belum bisa dibaca: "+error.message,"err");return}
+ const {data,error}=await client.from("anggota_gspmii")
+ .select("id,user_id,nomor_anggota,nama_lengkap,email,no_hp,alamat,tanggal_daftar")
+ .eq("user_id",currentUser.id).maybeSingle();
+
+ if(error){
+  message($("dashMessage"),"Profil belum bisa dibaca: "+error.message,"err");
+  return;
+ }
+
  member=data;
  $("who").textContent=currentUser.email||"Anggota";
- $("profile").innerHTML=member?`<p><b>Nama:</b> ${clean(member.nama_lengkap)}</p><p><b>Nomor anggota:</b> ${clean(member.nomor_anggota||"Menunggu dibuat pengurus")}</p><p><b>Email:</b> ${clean(member.email||currentUser.email)}</p><p><b>Nomor HP:</b> ${clean(member.no_hp||"-")}</p><p><b>Alamat:</b> ${clean(member.alamat||"-")}</p><p><b>Tanggal daftar:</b> ${clean(member.tanggal_daftar?new Date(member.tanggal_daftar).toLocaleDateString("id-ID"):"-")}</p><p><span class="pill">Menunggu verifikasi pengurus</span></p>`:`<p>Profil belum ditemukan. Silakan hubungi pengurus untuk pemeriksaan kebijakan database.</p>`;
- $("editHp").value=member?.no_hp||"";$("editAlamat").value=member?.alamat||"";
+
+ $("profile").innerHTML=member
+ ? `<p><b>Nama:</b> ${clean(member.nama_lengkap)}</p>
+ <p><b>Nomor anggota:</b> ${clean(member.nomor_anggota||"Menunggu dibuat pengurus")}</p>
+ <p><b>Email:</b> ${clean(member.email||currentUser.email)}</p>
+ <p><b>Nomor HP:</b> ${clean(member.no_hp||"-")}</p>
+ <p><b>Alamat:</b> ${clean(member.alamat||"-")}</p>
+ <p><b>Tanggal daftar:</b> ${clean(member.tanggal_daftar?new Date(member.tanggal_daftar).toLocaleDateString("id-ID"):"-")}</p>
+ <p><span class="pill">Menunggu verifikasi pengurus</span></p>`
+ : "<p>Profil belum ditemukan. Silakan hubungi pengurus.</p>";
+
+ $("editHp").value=member?.no_hp||"";
+ $("editAlamat").value=member?.alamat||"";
 }
-function showDashboard(){ $("auth").classList.add("hidden");$("dashboard").classList.remove("hidden");loadProfile() }
-function showAuth(){ $("dashboard").classList.add("hidden");$("auth").classList.remove("hidden") }
-$("loginForm").onsubmit=async e=>{e.preventDefault();if(!configured()){message($("authMessage"),"Konfigurasi Supabase belum diisi. Isi Project URL dan Publishable Key di bagian awal kode.","err");return}try{const {data,error}=await client.auth.signInWithPassword({email:$("loginEmail").value.trim(),password:$("loginPassword").value});if(error)throw error;currentUser=data.user;showDashboard()}catch(err){message($("authMessage"),"Gagal masuk: "+err.message,"err")}};
-$("registerForm").onsubmit=async e=>{e.preventDefault();if(!configured()){message($("authMessage"),"Konfigurasi Supabase belum diisi. Isi Project URL dan Publishable Key di bagian awal kode.","err");return}const email=$("regEmail").value.trim().toLowerCase(), nama=$("nama").value.trim(), hp=$("hp").value.trim(), alamat=$("alamat").value.trim(), password=$("regPassword").value;if(password.length<8){message($("authMessage"),"Kata sandi minimal 8 karakter.","err");return}
-try{message($("authMessage"),"Memproses pendaftaran...");const {data,error}=await client.auth.signUp({email,password,options:{data:{nama_lengkap:nama}}});if(error)throw error;if(!data.user)throw Error("Akun belum dibuat. Coba kembali.");if(!data.session){message($("authMessage"),"Akun dibuat. Periksa email untuk konfirmasi, lalu masuk setelah email dikonfirmasi.","ok");setMode("login");$("loginEmail").value=email;return}
-currentUser=data.user;
-const {error:insertError}=await client.from("anggota_gspmii").insert({user_id:data.user.id,nama_lengkap:nama,email,no_hp:hp,alamat});
-if(insertError){message($("authMessage"),"Akun berhasil dibuat, tetapi profil belum tersimpan: "+insertError.message+". Masuk kembali atau hubungi pengurus.","err");return}
-showDashboard();
-}catch(err){message($("authMessage"),"Pendaftaran gagal: "+err.message,"err")}};
-$("profileForm").onsubmit=async e=>{e.preventDefault();if(!member){message($("dashMessage"),"Profil belum tersedia; hubungi pengurus.","err");return}const {error}=await client.from("anggota_gspmii").update({no_hp:$("editHp").value.trim(),alamat:$("editAlamat").value.trim()}).eq("user_id",currentUser.id);if(error){message($("dashMessage"),"Gagal menyimpan: "+error.message,"err");return}message($("dashMessage"),"Profil berhasil diperbarui.","ok");await loadProfile()};
-$("logout").onclick=async()=>{await client.auth.signOut();currentUser=null;member=null;showAuth()};
-async function init(){if(!configured()){message($("authMessage"),"Website ini perlu diisi Project URL dan Publishable Key Supabase sebelum dipakai. Jangan gunakan Secret Key.","err");return}client=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY);const {data}=await client.auth.getSession();if(data.session){currentUser=data.session.user;showDashboard()}client.auth.onAuthStateChange((_event,session)=>{if(session&&!currentUser){currentUser=session.user;showDashboard()}else if(!session&&currentUser){currentUser=null;showAuth()}})}
+
+function showDashboard(){
+ $("auth").classList.add("hidden");
+ $("dashboard").classList.remove("hidden");
+ loadProfile();
+}
+function showAuth(){
+ $("dashboard").classList.add("hidden");
+ $("auth").classList.remove("hidden");
+}
+
+$("loginForm").onsubmit=async e=>{
+ e.preventDefault();
+ try{
+  const {data,error}=await client.auth.signInWithPassword({
+   email:$("loginEmail").value.trim().toLowerCase(),
+   password:$("loginPassword").value
+  });
+  if(error)throw error;
+  currentUser=data.user;
+  showDashboard();
+ }catch(err){
+  message($("authMessage"),"Gagal masuk: "+err.message,"err");
+ }
+};
+
+$("registerForm").onsubmit=async e=>{
+ e.preventDefault();
+ const email=$("regEmail").value.trim().toLowerCase();
+ const nama=$("nama").value.trim();
+ const hp=$("hp").value.trim();
+ const alamat=$("alamat").value.trim();
+ const password=$("regPassword").value;
+
+ if(password.length<8){
+  message($("authMessage"),"Kata sandi minimal 8 karakter.","err");
+  return;
+ }
+
+ try{
+  message($("authMessage"),"Memproses pendaftaran...");
+  const {data,error}=await client.auth.signUp({
+   email,password,
+   options:{
+    data:{nama_lengkap:nama,no_hp:hp,alamat},
+    emailRedirectTo:REDIRECT_URL
+   }
+  });
+  if(error)throw error;
+  if(!data.user)throw Error("Akun belum berhasil dibuat.");
+
+  if(!data.session){
+   message($("authMessage"),"Akun dibuat. Periksa email dan klik tautan konfirmasi. Setelah itu, masuk menggunakan email dan kata sandi yang dibuat.","ok");
+   setView("login");
+   $("loginEmail").value=email;
+   return;
+  }
+
+  currentUser=data.user;
+  await ensureMemberProfile(data.user,{nama_lengkap:nama,email,no_hp:hp,alamat});
+  showDashboard();
+ }catch(err){
+  message($("authMessage"),"Pendaftaran gagal: "+err.message,"err");
+ }
+};
+
+async function ensureMemberProfile(user,details={}){
+ const {data,error}=await client.from("anggota_gspmii")
+ .select("id").eq("user_id",user.id).maybeSingle();
+ if(error)throw error;
+ if(data)return;
+
+ const meta=user.user_metadata||{};
+ const payload={
+  user_id:user.id,
+  nama_lengkap:details.nama_lengkap||meta.nama_lengkap||user.email,
+  email:user.email,
+  no_hp:details.no_hp||meta.no_hp||"",
+  alamat:details.alamat||meta.alamat||""
+ };
+ const result=await client.from("anggota_gspmii").insert(payload);
+ if(result.error)throw result.error;
+}
+
+$("forgotForm").onsubmit=async e=>{
+ e.preventDefault();
+ try{
+  const email=$("forgotEmail").value.trim().toLowerCase();
+  const {error}=await client.auth.resetPasswordForEmail(email,{
+   redirectTo:REDIRECT_URL
+  });
+  if(error)throw error;
+  message($("authMessage"),"Jika email terdaftar, tautan reset sudah dikirim. Buka email terbaru dari Supabase dan klik Reset password.","ok");
+ }catch(err){
+  message($("authMessage"),"Gagal mengirim tautan reset: "+err.message,"err");
+ }
+};
+
+$("resetForm").onsubmit=async e=>{
+ e.preventDefault();
+ const password=$("newPassword").value;
+ const confirm=$("confirmPassword").value;
+
+ if(password.length<8){
+  message($("authMessage"),"Kata sandi minimal 8 karakter.","err");
+  return;
+ }
+ if(password!==confirm){
+  message($("authMessage"),"Kedua kata sandi tidak sama.","err");
+  return;
+ }
+
+ try{
+  const {error}=await client.auth.updateUser({password});
+  if(error)throw error;
+
+  recoveryMode=false;
+  $("newPassword").value="";
+  $("confirmPassword").value="";
+  history.replaceState(null,"",REDIRECT_URL);
+  message($("authMessage"),"Kata sandi berhasil diganti. Silakan masuk dengan kata sandi baru.","ok");
+  setView("login");
+ }catch(err){
+  message($("authMessage"),"Gagal mengganti kata sandi: "+err.message,"err");
+ }
+};
+
+$("profileForm").onsubmit=async e=>{
+ e.preventDefault();
+ if(!member){
+  message($("dashMessage"),"Profil belum tersedia. Hubungi pengurus.","err");
+  return;
+ }
+ const {error}=await client.from("anggota_gspmii")
+ .update({
+  no_hp:$("editHp").value.trim(),
+  alamat:$("editAlamat").value.trim()
+ })
+ .eq("user_id",currentUser.id);
+
+ if(error){
+  message($("dashMessage"),"Gagal menyimpan: "+error.message,"err");
+  return;
+ }
+ message($("dashMessage"),"Profil berhasil diperbarui.","ok");
+ await loadProfile();
+};
+
+$("logout").onclick=async()=>{
+ await client.auth.signOut();
+ currentUser=null;
+ member=null;
+ showAuth();
+ setView("login");
+};
+
+async function init(){
+ client=window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_PUBLISHABLE_KEY
+ );
+
+ client.auth.onAuthStateChange((event,session)=>{
+  if(event==="PASSWORD_RECOVERY"){
+   recoveryMode=true;
+   showAuth();
+   setView("reset");
+   message($("authMessage"),"Tautan pemulihan berhasil dibuka. Silakan buat kata sandi baru.","ok");
+   return;
+  }
+  if(event==="SIGNED_IN"&&session&&!recoveryMode){
+   currentUser=session.user;
+   showDashboard();
+  }
+  if(event==="SIGNED_OUT"){
+   currentUser=null;
+   member=null;
+   showAuth();
+   setView("login");
+  }
+ });
+
+ const {data,error}=await client.auth.getSession();
+ if(error){
+  message($("authMessage"),"Gagal memeriksa sesi: "+error.message,"err");
+  return;
+ }
+
+ if(data.session&&!recoveryMode){
+  currentUser=data.session.user;
+  showDashboard();
+ }
+
+ if(window.location.hash.includes("type=recovery")){
+  recoveryMode=true;
+  showAuth();
+  setView("reset");
+  message($("authMessage"),"Masukkan kata sandi baru untuk akun kamu.","ok");
+ }
+}
+
 init();
 })();
 </script>
-</body></html>
+</body>
+</html>
