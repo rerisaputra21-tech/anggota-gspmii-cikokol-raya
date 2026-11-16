@@ -1,454 +1,88 @@
-<button class="tombol-tema" id="tombolTema"
-onclick="gantiTema()">
-🌙 Mode Gelap
-</button>
 <!doctype html>
 <html lang="id">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#102c50">
-<title>Portal Anggota | GSPMII Cikokol Raya</title>
-<style>function aturTema() {
-  const tema = localStorage.getItem("tema-gspmii") || "terang";
-
-  document.body.classList.toggle("tema-gelap", tema === "gelap");
-
-  const tombol = document.getElementById("tombolTema");
-
-  if (tombol) {
-    tombol.innerHTML = tema === "gelap"
-      ? "☀️ Mode Terang"
-      : "🌙 Mode Gelap";
-  }
-}
-
-function gantiTema() {
-  const temaSekarang =
-    localStorage.getItem("tema-gspmii") || "terang";
-
-  const temaBaru = temaSekarang === "gelap"
-    ? "terang"
-    : "gelap";
-
-  localStorage.setItem("tema-gspmii", temaBaru);
-  aturTema();
-}
-
-aturTema();
-:root{--navy:#102c50;--blue:#1d5c94;--bg:#f3f6fa;--line:#dbe3ec;--text:#172536}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--text);font:15px system-ui,sans-serif}
-header{background:linear-gradient(120deg,#0a1e36,var(--navy),var(--blue));color:white;padding:20px 16px}
-.head,.wrap{max-width:920px;margin:auto}
-.brand{display:flex;align-items:center;gap:12px}
-.brand img{width:52px;height:52px;border-radius:50%;object-fit:cover;background:white}
-.brand h1{font-size:clamp(19px,4vw,28px);margin:0}
-.brand p{margin:4px 0 0;color:#d6e6f6;font-size:13px}
-.wrap{padding:18px 14px 40px}
-.card{background:white;border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:14px;box-shadow:0 4px 14px #102c500a}
-.hidden{display:none!important}
-h2{font-size:20px;margin:0 0 8px}
-h3{font-size:16px;margin:0 0 10px}
-.muted{color:#637387;font-size:13px}
-.tabs{display:flex;gap:8px;margin:14px 0}
-.tabs button,.btn{border:0;border-radius:9px;padding:11px 14px;font-weight:650;cursor:pointer;background:var(--blue);color:white}
-.tabs button.secondary,.btn.secondary{background:#e8eef5;color:var(--navy)}
-label{display:block;font-size:13px;font-weight:650;margin:12px 0 5px}
-input,textarea{width:100%;border:1px solid #cbd5e1;border-radius:8px;padding:11px;font:inherit;background:white}
-input[type=checkbox]{width:auto}
-textarea{min-height:80px;resize:vertical}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
-.status{padding:10px 12px;border-radius:8px;background:#eef5ff;color:#153e66;font-size:13px;margin:12px 0}
-.status.err{background:#fff0ef;color:#8a241c}
-.status.ok{background:#eaf8ee;color:#17602d}
-.pill{display:inline-block;border-radius:30px;padding:4px 8px;background:#fff0cc;color:#674600;font-size:12px}
-.linkbtn{border:0;background:none;padding:8px 0;color:#1d5c94;text-decoration:underline;font:inherit;cursor:pointer}
-footer{text-align:center;color:#6b7b8d;font-size:12px;padding:12px}
-</style>
+<title>Portal Keanggotaan | GSPMII PUK SAT Cikokol Raya</title>
+<meta name="description" content="Portal keanggotaan GSPMII PUK SAT Cikokol Raya">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-</head>
+<style>
+:root{color-scheme:light;--bg:#f2f5f9;--surface:#fff;--surface2:#f6f8fb;--text:#172536;--muted:#66778a;--line:#dce4ed;--blue:#1d5c94;--navy:#102c50;--gold:#efb84e}
+:root[data-theme=dark]{color-scheme:dark;--bg:#101720;--surface:#1a2633;--surface2:#223140;--text:#edf3f8;--muted:#a9b8c8;--line:#354657}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}button,input,select,textarea{font:inherit}button{cursor:pointer}
+header{background:linear-gradient(120deg,#081a30,#102c50,#1d5c94);color:#fff;padding:16px;position:sticky;top:0;z-index:3}.head{max-width:1200px;margin:auto;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}.brand{display:flex;align-items:center;gap:12px}.logo-mark{width:48px;height:48px;border-radius:50%;background:#fff;color:#1d5c94;border:2px solid var(--gold);display:grid;place-items:center;font-weight:900;font-size:24px}.brand h1{font-size:clamp(18px,3vw,25px);margin:0}.brand p{font-size:12px;color:#d5e4f3;margin:3px 0 0}.theme{background:#ffffff18;border:1px solid #ffffff66;color:#fff;padding:9px 12px;border-radius:10px;font-weight:700}
+.wrap{max-width:1200px;margin:auto;padding:20px 15px 40px}.card{background:var(--surface);border:1px solid var(--line);border-radius:15px;padding:18px;margin-bottom:14px}.hidden{display:none!important}h2{font-size:20px;margin:0 0 6px}h3{font-size:16px;margin:0 0 9px}.muted,.sub{color:var(--muted);font-size:13px}.sub{margin:0 0 15px}
+.btn{background:var(--blue);color:white;border:0;border-radius:9px;padding:10px 13px;font-weight:700}.btn.alt{background:var(--surface2);color:var(--text);border:1px solid var(--line)}.btn.red{background:#a82d38}.tabs,.actions{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:14px}.tabs button{background:var(--surface);color:var(--text);border:1px solid var(--line);padding:9px 12px;border-radius:9px}.tabs button.active{background:var(--navy);color:white}
+.grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:12px}.stat{grid-column:span 3;background:var(--surface);border:1px solid var(--line);border-radius:13px;padding:15px}.stat b{display:block;font-size:28px;color:var(--blue)}.span6{grid-column:span 6}.span12{grid-column:span 12}.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field{margin-bottom:12px}label{display:block;font-size:13px;font-weight:700;margin-bottom:5px}input,select,textarea{width:100%;padding:10px;border:1px solid var(--line);border-radius:9px;background:var(--surface);color:var(--text)}textarea{min-height:80px}.notice,.message{padding:11px;border-radius:9px;background:#fff3d9;color:#694b08;font-size:13px;margin:10px 0}.message{background:#e8f5ec;color:#17602d}.message.err{background:#ffeded;color:#982832}
+.tablewrap{overflow:auto;border:1px solid var(--line);border-radius:10px}table{width:100%;border-collapse:collapse;min-width:820px}th,td{padding:10px;border-bottom:1px solid var(--line);text-align:left;font-size:13px}th{background:var(--surface2);color:var(--muted);font-size:11px;text-transform:uppercase}.pill{border-radius:20px;padding:4px 8px;font-size:11px;background:#e5f4ea;color:#17602d}.pending{background:#fff2d6;color:#815900}.rejected{background:#fce8e8;color:#a82d38}.empty{padding:20px;text-align:center;border:1px dashed var(--line);border-radius:10px;color:var(--muted)}.quick{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.quick button{text-align:left;background:var(--surface2);color:var(--text);border:1px solid var(--line);padding:13px;border-radius:10px;font-weight:700}.quick small{display:block;color:var(--muted);font-weight:400}
+.item{border:1px solid var(--line);padding:12px;border-radius:10px;margin:8px 0}.item small{display:block;color:var(--muted)}.membercard{max-width:420px;border:1px solid var(--line);border-radius:15px;overflow:hidden}.membercard header{position:static;padding:14px}.membercard .body{padding:17px}.membercard .foot{padding:10px;background:var(--surface2);font-size:11px;color:var(--muted)}
+footer{text-align:center;color:var(--muted);font-size:12px;padding:20px}
+@media(max-width:720px){.stat{grid-column:span 6}.span6{grid-column:span 12}.row{grid-template-columns:1fr}.quick{grid-template-columns:repeat(2,1fr)}}
+@media print{body{background:white;color:black}header,.tabs,.no-print,footer{display:none!important}.membercard{max-width:100%}}
+</style></head>
 <body>
-<header>
-<div class="head brand">
-<img src="https://i1.sndcdn.com/avatars-000287066435-gunwr5-t1080x1080.jpg" alt="Logo GSPMII">
-<div>
-<h1>GSPMII CIKOKOL RAYA</h1>
-<p>Gabungan Serikat Pekerja Manufaktur Independen Indonesia</p>
-</div>
-</div>
-</header>
-
+<header><div class="head"><div class="brand"><div class="logo-mark" aria-label="GSPMII">G</div><div><h1>GSPMII PUK SAT CIKOKOL RAYA</h1><p>Gabungan Serikat Pekerja Manufaktur Independen Indonesia</p></div></div><button id="themeBtn" class="theme">🌙 Mode Gelap</button></div></header>
 <main class="wrap">
-<section id="auth" class="card">
-<h2>Portal Anggota</h2>
-<p class="muted">Masuk atau daftarkan akun anggota. Data profil disimpan di database Supabase.</p>
-
-<div class="tabs">
-<button id="tabLogin">Masuk</button>
-<button id="tabRegister" class="secondary">Daftar Anggota</button>
-</div>
-
-<div id="authMessage" class="status hidden"></div>
-
-<form id="loginForm">
-<label>Email</label>
-<input id="loginEmail" type="email" autocomplete="email" required>
-<label>Kata sandi</label>
-<input id="loginPassword" type="password" autocomplete="current-password" required>
-<p>
-<button class="btn" type="submit">Masuk</button>
-<button class="linkbtn" id="forgotButton" type="button">Lupa kata sandi?</button>
-</p>
-</form>
-
-<form id="registerForm" class="hidden">
-<div class="grid">
-<div>
-<label>Nama lengkap</label>
-<input id="nama" required maxlength="120">
-</div>
-<div>
-<label>Nomor HP</label>
-<input id="hp" type="tel" maxlength="30">
-</div>
-</div>
-<label>Alamat</label>
-<textarea id="alamat" maxlength="500"></textarea>
-<label>Email</label>
-<input id="regEmail" type="email" autocomplete="email" required>
-<label>Kata sandi (minimal 8 karakter)</label>
-<input id="regPassword" type="password" minlength="8" autocomplete="new-password" required>
-<label><input id="agree" type="checkbox" required> Saya menyatakan data yang diisi benar.</label>
-<p><button class="btn" type="submit">Buat Akun & Daftar</button></p>
-<p class="muted">Biaya pendaftaran: Rp110.000. Konfirmasi pembayaran hanya melalui pengurus resmi.</p>
-</form>
-
-<form id="forgotForm" class="hidden">
-<h3>Reset kata sandi</h3>
-<p class="muted">Masukkan email akun. Tautan untuk membuat kata sandi baru akan dikirim ke email tersebut.</p>
-<label>Email akun</label>
-<input id="forgotEmail" type="email" autocomplete="email" required>
-<p>
-<button class="btn" type="submit">Kirim tautan reset</button>
-<button class="btn secondary" id="backLogin" type="button">Kembali</button>
-</p>
-</form>
-
-<form id="resetForm" class="hidden">
-<h3>Buat kata sandi baru</h3>
-<p class="muted">Masukkan kata sandi baru minimal 8 karakter.</p>
-<label>Kata sandi baru</label>
-<input id="newPassword" type="password" minlength="8" autocomplete="new-password" required>
-<label>Ulangi kata sandi baru</label>
-<input id="confirmPassword" type="password" minlength="8" autocomplete="new-password" required>
-<p><button class="btn" type="submit">Simpan kata sandi baru</button></p>
-</form>
+<section id="auth" class="card" style="max-width:540px;margin:25px auto">
+<h2>Portal Keanggotaan</h2><p class="sub">Masuk menggunakan email yang terdaftar. Pendaftaran anggota baru diperiksa pengurus sebelum diaktifkan.</p>
+<div class="tabs"><button id="loginTab" class="active">Masuk</button><button id="registerTab">Daftar Anggota</button></div><div id="authMsg" class="message hidden"></div>
+<form id="loginForm"><div class="field"><label>Email</label><input id="email" type="email" required></div><div class="field"><label>Kata sandi</label><input id="password" type="password" required></div><button class="btn">Masuk</button> <button class="btn alt" type="button" id="forgot">Lupa kata sandi</button></form>
+<form id="registerForm" class="hidden"><div class="field"><label>Nama lengkap</label><input id="rName" required></div><div class="field"><label>Email aktif</label><input id="rEmail" type="email" required></div><div class="field"><label>Nomor HP</label><input id="rPhone"></div><div class="field"><label>Alamat</label><textarea id="rAddress"></textarea></div><div class="field"><label>Kata sandi minimal 8 karakter</label><input id="rPass" type="password" minlength="8" required></div><label><input id="agree" type="checkbox" required style="width:auto"> Data yang saya isi benar.</label><p><button class="btn">Kirim pendaftaran</button></p><div class="notice">Biaya pendaftaran sesuai ketentuan pengurus: Rp110.000. Konfirmasi hanya melalui pengurus resmi.</div></form>
+<form id="resetForm" class="hidden"><div class="field"><label>Email akun</label><input id="resetEmail" type="email" required></div><button class="btn">Kirim tautan reset</button> <button class="btn alt" type="button" id="backLogin">Kembali</button></form>
+<form id="newPassForm" class="hidden"><div class="field"><label>Kata sandi baru</label><input id="newPass" type="password" minlength="8" required></div><div class="field"><label>Ulangi kata sandi</label><input id="newPass2" type="password" minlength="8" required></div><button class="btn">Simpan kata sandi</button></form>
 </section>
-
-<section id="dashboard" class="hidden">
-<div class="card">
-<div style="display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap">
-<div><h2>Beranda Anggota</h2><p class="muted" id="who"></p></div>
-<button class="btn secondary" id="logout">Keluar</button>
-</div>
-<div id="dashMessage" class="status hidden"></div>
-</div>
-
-<div class="card">
-<h3>Profil Keanggotaan</h3>
-<div id="profile"></div>
-<p class="muted">Status keanggotaan akan diverifikasi pengurus. Jangan bagikan kata sandi kepada siapa pun.</p>
-</div>
-
-<div class="card">
-<h3>Perbarui nomor HP dan alamat</h3>
-<form id="profileForm">
-<label>Nomor HP</label>
-<input id="editHp" type="tel" maxlength="30">
-<label>Alamat</label>
-<textarea id="editAlamat" maxlength="500"></textarea>
-<p><button class="btn" type="submit">Simpan Profil</button></p>
-</form>
-</div>
-</section>
-<footer>Portal Anggota · GSPMII Cikokol Raya</footer>
-</main>
-
+<section id="app" class="hidden">
+<div class="card"><div style="display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap"><div><h2 id="welcome">Beranda</h2><div id="userEmail" class="muted"></div></div><button id="logout" class="btn alt no-print">Keluar</button></div><div id="appMsg" class="message hidden"></div></div>
+<nav class="tabs no-print" id="nav"><button data-p="home" class="active">Beranda</button><button data-p="profile">Profil Saya</button><button data-p="members" class="admin hidden">Data Anggota</button><button data-p="form" class="admin hidden">Formulir Anggota</button><button data-p="verify" class="admin hidden">Verifikasi</button><button data-p="card">Kartu Digital</button><button data-p="agenda">Pengumuman & Agenda</button><button data-p="export" class="admin hidden">Ekspor Excel</button><button data-p="access" class="admin hidden">Hak Akses</button></nav>
+<section id="p-home" class="page"><div class="grid"><div class="stat"><b id="total">—</b>Jumlah anggota</div><div class="stat"><b id="active">—</b>Anggota aktif</div><div class="stat"><b id="new">—</b>Anggota baru bulan ini</div><div class="stat"><b id="pending">—</b>Menunggu verifikasi</div>
+<div class="card span12"><h3>Akses Cepat</h3><div class="quick"><button data-go="members" class="admin">Data Anggota<small>Cari dan kelola anggota</small></button><button data-go="form" class="admin">Tambah / Edit Anggota<small>Formulir identitas anggota</small></button><button data-go="verify" class="admin">Verifikasi<small>Periksa calon anggota</small></button><button data-go="card">Kartu Digital<small>Nomor anggota dan identitas</small></button><button data-go="agenda">Agenda & Pengumuman<small>Rapat, konsolidasi, kegiatan</small></button><button data-go="export" class="admin">Ekspor Excel<small>Unduh administrasi</small></button></div></div>
+<div class="card span6"><h3>Status Saya</h3><div id="myStatus"></div></div><div class="card span6"><h3>Pengumuman terbaru</h3><div id="latest"></div></div></div></section>
+<section id="p-profile" class="page hidden"><div class="card"><h2>Profil Saya</h2><div id="profileInfo"></div><form id="profileForm"><div class="field"><label>Nomor HP</label><input id="myPhone"></div><div class="field"><label>Alamat</label><textarea id="myAddress"></textarea></div><button class="btn">Simpan profil</button></form></div></section>
+<section id="p-members" class="page hidden"><div class="card"><h2>Data Anggota</h2><div class="search"><input id="search" placeholder="Cari nama, email, nomor, unit kerja, jabatan"><button class="btn" data-go="form">Tambah anggota</button></div><div id="memberRows"></div></div></section>
+<section id="p-form" class="page hidden"><div class="card"><h2 id="formTitle">Formulir Anggota</h2><form id="memberForm"><input id="fUid" type="hidden"><div class="field"><label>Nama lengkap</label><input id="fName" required></div><div class="field"><label>Nomor HP</label><input id="fPhone"></div><div class="row"><div class="field"><label>Unit kerja</label><input id="fUnit" placeholder="Toko / DC / Kantor"></div><div class="field"><label>Jabatan anggota</label><input id="fPosition" placeholder="Anggota / Pengurus"></div></div><div class="field"><label>NIK anggota (akses terbatas)</label><input id="fNik" inputmode="numeric" maxlength="16"></div><div class="field"><label>Alamat</label><textarea id="fAddress"></textarea></div><p class="notice">Status verifikasi dikelola melalui menu Verifikasi. Hak akses pengurus tidak dapat diubah dari formulir ini.</p><button class="btn">Simpan data</button> <button class="btn alt" type="button" id="clearForm">Kosongkan</button></form></div></section>
+<section id="p-verify" class="page hidden"><div class="card"><h2>Verifikasi Calon Anggota</h2><p class="sub">Pengurus memeriksa pendaftaran sebelum status menjadi aktif.</p><div id="verifyRows"></div></div></section>
+<section id="p-card" class="page hidden"><div class="card"><h2>Kartu Anggota Digital</h2><p class="sub">Memuat nomor anggota dan identitas organisasi.</p><div id="card"></div><button id="print" class="btn no-print">Cetak / Simpan PDF</button></div></section>
+<section id="p-agenda" class="page hidden"><div class="grid"><div class="card span6 admin"><h2>Tambah Pengumuman / Agenda</h2><form id="agendaForm"><div class="field"><label>Judul kegiatan</label><input id="aTitle" required></div><div class="field"><label>Tanggal dan waktu</label><input id="aDate" type="datetime-local" required></div><div class="field"><label>Lokasi</label><input id="aPlace"></div><div class="field"><label>Informasi / jenis kegiatan</label><textarea id="aBody"></textarea></div><button class="btn">Terbitkan</button></form></div><div class="card span6"><h2>Agenda & Pengumuman</h2><div id="agendaRows"></div></div></div></section>
+<section id="p-export" class="page hidden"><div class="card"><h2>Ekspor Excel</h2><p class="sub">Unduh data anggota CSV yang dapat dibuka di Microsoft Excel.</p><button id="export" class="btn">Unduh CSV</button><div class="notice">Data NIK adalah data pribadi. Jaga kerahasiaannya.</div></div></section>
+<section id="p-access" class="page hidden"><div class="card"><h2>Hak Akses Pengurus</h2><p>Anggota hanya dapat melihat profil sendiri dan memperbarui nomor HP serta alamat. Pengurus mengelola data, status verifikasi, agenda, dan ekspor.</p><p class="notice">Pengamanan sebenarnya wajib diterapkan di database melalui RLS dan fungsi server, bukan hanya menyembunyikan menu.</p></div></section>
+</section><footer>Portal Keanggotaan GSPMII PUK SAT Cikokol Raya · Solidaritas dan tertib administrasi</footer></main>
 <script>
-(() => {
-const SUPABASE_URL = "https://iyytbgwjkznngowptsqo.supabase.co";
-const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_rot8WQ443SBPE5hEPLLg4A_a5ix05wh";
-const REDIRECT_URL = "https://rerisaputra21-tech.github.io/anggota-gspmii-cikokol-raya/";
-
-const $ = id => document.getElementById(id);
-let client, currentUser, member, recoveryMode = false;
-
-function message(el,text,type=""){
- el.textContent=text;
- el.className="status"+(type?" "+type:"");
- el.classList.remove("hidden");
-}
-function clearMessage(el){el.classList.add("hidden")}
-
-function setView(view){
- const forms={
-  login:"loginForm",
-  register:"registerForm",
-  forgot:"forgotForm",
-  reset:"resetForm"
- };
- Object.entries(forms).forEach(([name,id])=>{
-  $(id).classList.toggle("hidden",name!==view);
- });
- $("tabLogin").classList.toggle("secondary",view!=="login");
- $("tabRegister").classList.toggle("secondary",view!=="register");
- clearMessage($("authMessage"));
-}
-
-$("tabLogin").onclick=()=>setView("login");
-$("tabRegister").onclick=()=>setView("register");
-$("forgotButton").onclick=()=>{
- $("forgotEmail").value=$("loginEmail").value.trim();
- setView("forgot");
-};
-$("backLogin").onclick=()=>setView("login");
-
-function clean(v){
- return String(v??"").replace(/[&<>"']/g,c=>({
-  "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
- }[c]));
-}
-
-async function loadProfile(){
- const {data,error}=await client.from("anggota_gspmii")
- .select("id,user_id,nomor_anggota,nama_lengkap,email,no_hp,alamat,tanggal_daftar")
- .eq("user_id",currentUser.id).maybeSingle();
-
- if(error){
-  message($("dashMessage"),"Profil belum bisa dibaca: "+error.message,"err");
-  return;
- }
-
- member=data;
- $("who").textContent=currentUser.email||"Anggota";
-
- $("profile").innerHTML=member
- ? `<p><b>Nama:</b> ${clean(member.nama_lengkap)}</p>
- <p><b>Nomor anggota:</b> ${clean(member.nomor_anggota||"Menunggu dibuat pengurus")}</p>
- <p><b>Email:</b> ${clean(member.email||currentUser.email)}</p>
- <p><b>Nomor HP:</b> ${clean(member.no_hp||"-")}</p>
- <p><b>Alamat:</b> ${clean(member.alamat||"-")}</p>
- <p><b>Tanggal daftar:</b> ${clean(member.tanggal_daftar?new Date(member.tanggal_daftar).toLocaleDateString("id-ID"):"-")}</p>
- <p><span class="pill">Menunggu verifikasi pengurus</span></p>`
- : "<p>Profil belum ditemukan. Silakan hubungi pengurus.</p>";
-
- $("editHp").value=member?.no_hp||"";
- $("editAlamat").value=member?.alamat||"";
-}
-
-function showDashboard(){
- $("auth").classList.add("hidden");
- $("dashboard").classList.remove("hidden");
- loadProfile();
-}
-function showAuth(){
- $("dashboard").classList.add("hidden");
- $("auth").classList.remove("hidden");
-}
-
-$("loginForm").onsubmit=async e=>{
- e.preventDefault();
- try{
-  const {data,error}=await client.auth.signInWithPassword({
-   email:$("loginEmail").value.trim().toLowerCase(),
-   password:$("loginPassword").value
-  });
-  if(error)throw error;
-  currentUser=data.user;
-  showDashboard();
- }catch(err){
-  message($("authMessage"),"Gagal masuk: "+err.message,"err");
- }
-};
-
-$("registerForm").onsubmit=async e=>{
- e.preventDefault();
- const email=$("regEmail").value.trim().toLowerCase();
- const nama=$("nama").value.trim();
- const hp=$("hp").value.trim();
- const alamat=$("alamat").value.trim();
- const password=$("regPassword").value;
-
- if(password.length<8){
-  message($("authMessage"),"Kata sandi minimal 8 karakter.","err");
-  return;
- }
-
- try{
-  message($("authMessage"),"Memproses pendaftaran...");
-  const {data,error}=await client.auth.signUp({
-   email,password,
-   options:{
-    data:{nama_lengkap:nama,no_hp:hp,alamat},
-    emailRedirectTo:REDIRECT_URL
-   }
-  });
-  if(error)throw error;
-  if(!data.user)throw Error("Akun belum berhasil dibuat.");
-
-  if(!data.session){
-   message($("authMessage"),"Akun dibuat. Periksa email dan klik tautan konfirmasi. Setelah itu, masuk menggunakan email dan kata sandi yang dibuat.","ok");
-   setView("login");
-   $("loginEmail").value=email;
-   return;
-  }
-
-  currentUser=data.user;
-  await ensureMemberProfile(data.user,{nama_lengkap:nama,email,no_hp:hp,alamat});
-  showDashboard();
- }catch(err){
-  message($("authMessage"),"Pendaftaran gagal: "+err.message,"err");
- }
-};
-
-async function ensureMemberProfile(user,details={}){
- const {data,error}=await client.from("anggota_gspmii")
- .select("id").eq("user_id",user.id).maybeSingle();
- if(error)throw error;
- if(data)return;
-
- const meta=user.user_metadata||{};
- const payload={
-  user_id:user.id,
-  nama_lengkap:details.nama_lengkap||meta.nama_lengkap||user.email,
-  email:user.email,
-  no_hp:details.no_hp||meta.no_hp||"",
-  alamat:details.alamat||meta.alamat||""
- };
- const result=await client.from("anggota_gspmii").insert(payload);
- if(result.error)throw result.error;
-}
-
-$("forgotForm").onsubmit=async e=>{
- e.preventDefault();
- try{
-  const email=$("forgotEmail").value.trim().toLowerCase();
-  const {error}=await client.auth.resetPasswordForEmail(email,{
-   redirectTo:REDIRECT_URL
-  });
-  if(error)throw error;
-  message($("authMessage"),"Jika email terdaftar, tautan reset sudah dikirim. Buka email terbaru dari Supabase dan klik Reset password.","ok");
- }catch(err){
-  message($("authMessage"),"Gagal mengirim tautan reset: "+err.message,"err");
- }
-};
-
-$("resetForm").onsubmit=async e=>{
- e.preventDefault();
- const password=$("newPassword").value;
- const confirm=$("confirmPassword").value;
-
- if(password.length<8){
-  message($("authMessage"),"Kata sandi minimal 8 karakter.","err");
-  return;
- }
- if(password!==confirm){
-  message($("authMessage"),"Kedua kata sandi tidak sama.","err");
-  return;
- }
-
- try{
-  const {error}=await client.auth.updateUser({password});
-  if(error)throw error;
-
-  recoveryMode=false;
-  $("newPassword").value="";
-  $("confirmPassword").value="";
-  history.replaceState(null,"",REDIRECT_URL);
-  message($("authMessage"),"Kata sandi berhasil diganti. Silakan masuk dengan kata sandi baru.","ok");
-  setView("login");
- }catch(err){
-  message($("authMessage"),"Gagal mengganti kata sandi: "+err.message,"err");
- }
-};
-
-$("profileForm").onsubmit=async e=>{
- e.preventDefault();
- if(!member){
-  message($("dashMessage"),"Profil belum tersedia. Hubungi pengurus.","err");
-  return;
- }
- const {error}=await client.from("anggota_gspmii")
- .update({
-  no_hp:$("editHp").value.trim(),
-  alamat:$("editAlamat").value.trim()
- })
- .eq("user_id",currentUser.id);
-
- if(error){
-  message($("dashMessage"),"Gagal menyimpan: "+error.message,"err");
-  return;
- }
- message($("dashMessage"),"Profil berhasil diperbarui.","ok");
- await loadProfile();
-};
-
-$("logout").onclick=async()=>{
- await client.auth.signOut();
- currentUser=null;
- member=null;
- showAuth();
- setView("login");
-};
-
-async function init(){
- client=window.supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_PUBLISHABLE_KEY
- );
-
- client.auth.onAuthStateChange((event,session)=>{
-  if(event==="PASSWORD_RECOVERY"){
-   recoveryMode=true;
-   showAuth();
-   setView("reset");
-   message($("authMessage"),"Tautan pemulihan berhasil dibuka. Silakan buat kata sandi baru.","ok");
-   return;
-  }
-  if(event==="SIGNED_IN"&&session&&!recoveryMode){
-   currentUser=session.user;
-   showDashboard();
-  }
-  if(event==="SIGNED_OUT"){
-   currentUser=null;
-   member=null;
-   showAuth();
-   setView("login");
-  }
- });
-
- const {data,error}=await client.auth.getSession();
- if(error){
-  message($("authMessage"),"Gagal memeriksa sesi: "+error.message,"err");
-  return;
- }
-
- if(data.session&&!recoveryMode){
-  currentUser=data.session.user;
-  showDashboard();
- }
-
- if(window.location.hash.includes("type=recovery")){
-  recoveryMode=true;
-  showAuth();
-  setView("reset");
-  message($("authMessage"),"Masukkan kata sandi baru untuk akun kamu.","ok");
- }
-}
-
-init();
+(()=>{"use strict";
+const SB="https://iyytbgwjkznngowptsqo.supabase.co",KEY="sb_publishable_rot8WQ443SBPE5hEPLLg4A_a5ix05wh", $=id=>document.getElementById(id);
+let db,user,me,admin=false,rows=[];
+function setTheme(t){document.documentElement.dataset.theme=t;localStorage.setItem("gspmii_theme",t);$("themeBtn").textContent=t==="dark"?"☀️ Mode Terang":"🌙 Mode Gelap"}setTheme(localStorage.getItem("gspmii_theme")||"light");$("themeBtn").onclick=()=>setTheme(document.documentElement.dataset.theme==="dark"?"light":"dark");
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+function message(el,s,err=false){el.textContent=s;el.className="message"+(err?" err":"");el.classList.remove("hidden")}
+function auth(mode="loginForm"){$("auth").classList.remove("hidden");$("app").classList.add("hidden");["loginForm","registerForm","resetForm","newPassForm"].forEach(x=>$(x).classList.toggle("hidden",x!==mode));$("loginTab").classList.toggle("active",mode==="loginForm");$("registerTab").classList.toggle("active",mode==="registerForm")}
+$("loginTab").onclick=()=>auth();$("registerTab").onclick=()=>auth("registerForm");$("forgot").onclick=()=>{$("resetEmail").value=$("email").value;auth("resetForm")};$("backLogin").onclick=()=>auth();
+function page(p){document.querySelectorAll(".page").forEach(x=>x.classList.toggle("hidden",x.id!=="p-"+p));document.querySelectorAll("#nav [data-p]").forEach(x=>x.classList.toggle("active",x.dataset.p===p));if(p==="card")drawCard();window.scrollTo(0,0)}
+document.querySelectorAll("[data-p],[data-go]").forEach(b=>b.onclick=()=>{let p=b.dataset.p||b.dataset.go;if(["members","form","verify","export","access"].includes(p)&&!admin)return;page(p)});
+const badge=s=>`<span class="pill ${s==="menunggu"?"pending":s==="ditolak"?"rejected":""}">${s==="disetujui"?"Aktif":s==="ditolak"?"Ditolak":"Menunggu"}</span>`;
+async function getMe(){let {data,error}=await db.from("anggota_gspmii").select("*").eq("user_id",user.id).maybeSingle();if(error)throw error;if(!data)throw new Error("Profil anggota belum terbentuk. Hubungi pengurus; jangan membuat profil manual dari browser.");me=data;admin=me.peran==="pengurus"&&me.status_verifikasi==="disetujui"}
+function renderProfile(){$("welcome").textContent="Halo, "+me.nama_lengkap;$("userEmail").textContent=user.email;$("profileInfo").innerHTML=`<p><b>Nama:</b> ${esc(me.nama_lengkap)}</p><p><b>Email:</b> ${esc(me.email||user.email)}</p><p><b>Nomor anggota:</b> ${esc(me.nomor_anggota||"Belum diterbitkan")}</p><p><b>Unit kerja:</b> ${esc(me.unit_kerja||"-")}</p><p><b>Jabatan:</b> ${esc(me.jabatan||"-")}</p><p><b>Status:</b> ${badge(me.status_verifikasi)}</p>`;$("myPhone").value=me.no_hp||"";$("myAddress").value=me.alamat||"";$("myStatus").innerHTML=`<p>Nomor anggota: ${esc(me.nomor_anggota||"Belum diterbitkan")}</p><p>Status: ${badge(me.status_verifikasi)}</p>`}
+async function loadAdmin(){if(!admin)return;let {data,error}=await db.from("anggota_gspmii").select("*").order("tanggal_daftar",{ascending:false});if(error)throw error;rows=data||[];let d=new Date();$("total").textContent=rows.length;$("active").textContent=rows.filter(x=>x.status_verifikasi==="disetujui").length;$("pending").textContent=rows.filter(x=>x.status_verifikasi==="menunggu").length;$("new").textContent=rows.filter(x=>{let t=x.tanggal_daftar&&new Date(x.tanggal_daftar);return t&&t.getMonth()===d.getMonth()&&t.getFullYear()===d.getFullYear()}).length;drawRows();drawVerify()}
+function drawRows(){let q=$("search").value.toLowerCase();let a=rows.filter(m=>[m.nama_lengkap,m.email,m.nomor_anggota,m.unit_kerja,m.jabatan].some(x=>String(x||"").toLowerCase().includes(q)));$("memberRows").innerHTML=a.length?`<div class="tablewrap"><table><tr><th>Nama / Email</th><th>No. Anggota</th><th>Unit</th><th>Jabatan</th><th>NIK</th><th>Status</th><th>Aksi</th></tr>${a.map(m=>`<tr><td>${esc(m.nama_lengkap)}<br>${esc(m.email)}</td><td>${esc(m.nomor_anggota||"-")}</td><td>${esc(m.unit_kerja||"-")}</td><td>${esc(m.jabatan||"-")}</td><td>${esc(m.nik||"-")}</td><td>${badge(m.status_verifikasi)}</td><td><button class="btn alt" data-edit="${esc(m.id)}">Edit</button> <button class="btn red" data-del="${esc(m.id)}">Hapus</button></td></tr>`).join("")}</table></div>`:'<div class="empty">Data tidak ditemukan.</div>'}
+$("search").oninput=drawRows;
+function fill(m){$("fUid").value=m?.id||"";$("fName").value=m?.nama_lengkap||"";$("fPhone").value=m?.no_hp||"";$("fUnit").value=m?.unit_kerja||"";$("fPosition").value=m?.jabatan||"";$("fNik").value=m?.nik||"";$("fAddress").value=m?.alamat||"";$("formTitle").textContent=m?"Edit Anggota":"Formulir Anggota";page("form")}
+$("memberRows").onclick=e=>{let id=e.target.dataset.edit,del=e.target.dataset.del;if(id)fill(rows.find(x=>x.id===id));if(del)removeMember(del)};
+$("clearForm").onclick=()=>fill(null);
+$("memberForm").onsubmit=async e=>{e.preventDefault();let id=$("fUid").value;if(!id){message($("appMsg"),"Pendaftaran anggota dibuat melalui menu Daftar Anggota. Formulir ini hanya untuk mengedit profil yang sudah terdaftar.",true);return}let {error}=await db.rpc("gspmii_admin_update_member",{p_member_id:id,p_nama_lengkap:$("fName").value.trim(),p_no_hp:$("fPhone").value.trim(),p_alamat:$("fAddress").value.trim(),p_nik:$("fNik").value.trim(),p_unit_kerja:$("fUnit").value.trim(),p_jabatan:$("fPosition").value.trim()});if(error){message($("appMsg"),"Simpan gagal: "+error.message,true);return}message($("appMsg"),"Data anggota diperbarui.");await loadAdmin();page("members")};
+async function removeMember(id){let m=rows.find(x=>x.id===id);if(!m||!confirm("Hapus data keanggotaan "+m.nama_lengkap+"? Akun login tidak ikut dihapus."))return;let {error}=await db.rpc("gspmii_admin_delete_member",{p_member_id:id});if(error){message($("appMsg"),"Hapus gagal: "+error.message,true);return}await loadAdmin()}
+function drawVerify(){let a=rows.filter(x=>x.status_verifikasi==="menunggu");$("verifyRows").innerHTML=a.length?a.map(m=>`<div class="item"><b>${esc(m.nama_lengkap)}</b><small>${esc(m.email)} · ${esc(m.unit_kerja||"Unit kerja belum diisi")}</small><p>${esc(m.alamat||"")}</p><button class="btn" data-approve="${esc(m.id)}">Setujui / Aktifkan</button> <button class="btn red" data-reject="${esc(m.id)}">Tolak</button></div>`).join(""):'<div class="empty">Tidak ada pendaftar menunggu.</div>'}
+$("verifyRows").onclick=async e=>{let id=e.target.dataset.approve||e.target.dataset.reject;if(!id)return;let st=e.target.dataset.approve?"disetujui":"ditolak";if(!confirm(st==="disetujui"?"Aktifkan anggota ini?":"Tolak pendaftaran ini?"))return;let {error}=await db.rpc("gspmii_admin_verify_member",{p_member_id:id,p_status:st});if(error){message($("appMsg"),"Gagal mengubah status: "+error.message,true);return}await loadAdmin()};
+function drawCard(){if(me.status_verifikasi!=="disetujui"){$("card").innerHTML='<div class="empty">Kartu digital muncul setelah disetujui pengurus.</div>';return}$("card").innerHTML=`<div class="membercard"><header><b>GSPMII PUK SAT CIKOKOL RAYA</b><div>KARTU IDENTITAS ANGGOTA</div></header><div class="body"><h2>${esc(me.nama_lengkap)}</h2><p><b>Nomor anggota:</b> ${esc(me.nomor_anggota||"Belum diterbitkan")}<br><b>Unit kerja:</b> ${esc(me.unit_kerja||"-")}<br><b>Jabatan:</b> ${esc(me.jabatan||"Anggota")}<br><b>Status:</b> AKTIF</p></div><div class="foot">Validasi melalui pengurus GSPMII</div></div>`}
+$("print").onclick=()=>window.print();
+$("profileForm").onsubmit=async e=>{e.preventDefault();let {error}=await db.from("anggota_gspmii").update({no_hp:$("myPhone").value.trim(),alamat:$("myAddress").value.trim()}).eq("user_id",user.id);if(error){message($("appMsg"),error.message,true);return}me.no_hp=$("myPhone").value;me.alamat=$("myAddress").value;message($("appMsg"),"Profil disimpan.");renderProfile()};
+async function loadAgenda(){let {data,error}=await db.from("agenda_gspmii").select("*").order("tanggal",{ascending:true});if(error){$("agendaRows").innerHTML='<div class="empty">Agenda belum tersedia. Pengurus perlu memasang SQL database.</div>';return}let a=data||[];$("agendaRows").innerHTML=a.length?a.map(x=>`<div class="item"><b>${esc(x.judul)}</b><small>${esc(x.tanggal||"Tanggal menyusul")} · ${esc(x.lokasi||"")}</small><p>${esc(x.deskripsi||"")}</p>${admin?`<button class="btn red" data-agdel="${x.id}">Hapus</button>`:""}</div>`).join(""):'<div class="empty">Belum ada agenda.</div>';$("latest").innerHTML=a.slice(0,3).map(x=>`<div class="item"><b>${esc(x.judul)}</b><small>${esc(x.tanggal||"Tanggal menyusul")}</small></div>`).join("")||"Belum ada pengumuman."}
+$("agendaForm").onsubmit=async e=>{e.preventDefault();let {error}=await db.from("agenda_gspmii").insert({judul:$("aTitle").value.trim(),tanggal:new Date($("aDate").value).toISOString(),lokasi:$("aPlace").value.trim(),deskripsi:$("aBody").value.trim(),dibuat_oleh:user.id});if(error){message($("appMsg"),error.message,true);return}$("agendaForm").reset();await loadAgenda();message($("appMsg"),"Agenda diterbitkan.")};
+$("agendaRows").onclick=async e=>{let id=e.target.dataset.agdel;if(!id||!confirm("Hapus agenda?"))return;let {error}=await db.from("agenda_gspmii").delete().eq("id",id);if(error){message($("appMsg"),error.message,true);return}await loadAgenda()};
+$("export").onclick=()=>{let cols=["nama_lengkap","nomor_anggota","email","no_hp","unit_kerja","jabatan","nik","alamat","status_verifikasi","peran","tanggal_daftar"],head=["Nama","Nomor Anggota","Email","HP","Unit Kerja","Jabatan","NIK","Alamat","Status","Hak Akses","Tanggal Daftar"];let q=[head,...rows.map(m=>cols.map(k=>m[k]||""))],cell=v=>'"'+String(v??"").replace(/"/g,'""')+'"';let blob=new Blob(["\ufeff"+q.map(r=>r.map(cell).join(";")).join("\r\n")],{type:"text/csv;charset=utf-8"}),a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="Data_Anggota_GSPMII.csv";a.click();URL.revokeObjectURL(a.href)};
+async function enter(){ $("auth").classList.add("hidden");$("app").classList.remove("hidden");try{await getMe();document.querySelectorAll(".admin").forEach(x=>x.classList.toggle("hidden",!admin));renderProfile();drawCard();await loadAgenda();if(admin)await loadAdmin();else["total","active","new","pending"].forEach(x=>$(x).textContent="—")}catch(e){message($("appMsg"),"Gagal memuat data: "+e.message,true)}}
+$("loginForm").onsubmit=async e=>{e.preventDefault();let {data,error}=await db.auth.signInWithPassword({email:$("email").value.trim(),password:$("password").value});if(error){message($("authMsg"),error.message,true);return}user=data.user;await enter()};
+$("registerForm").onsubmit=async e=>{e.preventDefault();let email=$("rEmail").value.trim().toLowerCase(),{data,error}=await db.auth.signUp({email,password:$("rPass").value,options:{data:{nama_lengkap:$("rName").value.trim(),no_hp:$("rPhone").value.trim(),alamat:$("rAddress").value.trim()}}});if(error){message($("authMsg"),error.message,true);return}if(data.session){user=data.user;await enter()}else{auth();$("email").value=email;message($("authMsg"),"Pendaftaran diterima. Konfirmasi email terlebih dahulu, lalu masuk. Profil anggota dibuat otomatis oleh database.")}};
+$("resetForm").onsubmit=async e=>{e.preventDefault();let {error}=await db.auth.resetPasswordForEmail($("resetEmail").value.trim(),{redirectTo:location.origin+location.pathname});message($("authMsg"),error?error.message:"Tautan reset diminta. Periksa email dan folder Spam.",!!error)};
+$("newPassForm").onsubmit=async e=>{e.preventDefault();if($("newPass").value.length<8||$("newPass").value!==$("newPass2").value){message($("authMsg"),"Kata sandi harus sama dan minimal 8 karakter.",true);return}let {error}=await db.auth.updateUser({password:$("newPass").value});if(error){message($("authMsg"),error.message,true);return}await db.auth.signOut();auth();message($("authMsg"),"Kata sandi berhasil diubah. Silakan masuk.")};
+$("logout").onclick=async()=>{await db.auth.signOut();user=me=null;admin=false;auth()};
+async function init(){db=window.supabase.createClient(SB,KEY);if(location.hash.includes("type=recovery"))auth("newPassForm");let {data}=await db.auth.getSession();if(data.session){user=data.session.user;await enter()}db.auth.onAuthStateChange((ev,s)=>{if(ev==="PASSWORD_RECOVERY")auth("newPassForm");if(ev==="SIGNED_OUT"){user=me=null;admin=false;auth()}})}init().catch(e=>message($("authMsg"),e.message,true));
 })();
-</script>
-</body>
-</html>
+</script></body></html>
