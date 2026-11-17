@@ -220,6 +220,31 @@ body.logged-in #publicIntro,body.logged-in #landingNote{display:none!important}
 #profileForm h3{color:var(--gold);margin:22px 0 12px}#profileForm hr{border:0;border-top:1px solid var(--line);margin:22px 0}
 @media(max-width:560px){.profile-photo-box{align-items:flex-start;flex-direction:column}.profile-photo{width:92px;height:92px}}
 
+
+/* Profil organisasi GSPMII pada Beranda anggota — tambahan tanpa mengubah fitur lama */
+.org-home{margin-top:28px;color:var(--text)}
+.org-home .org-intro{text-align:center;padding:26px 18px 18px}
+.org-home .org-kicker{display:inline-block;color:#0870bd;font-size:11px;font-weight:900;letter-spacing:2px}
+.org-home .org-intro h2{font-size:clamp(25px,4vw,36px);margin:10px 0 8px;color:var(--text)}
+.org-home .org-intro p{max-width:760px;margin:0 auto;color:var(--muted);line-height:1.8}
+.org-history{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:12px 0 30px}
+.org-history-card{padding:20px;border:1px solid var(--line);border-radius:18px;background:var(--surface);box-shadow:var(--shadow)}
+.org-history-card h3{margin:0 0 16px;padding:14px;border-radius:10px;background:#0868b8;color:white;text-align:center;font-size:18px}
+.org-history-card dl{margin:0}.org-history-card dt{font-weight:800;margin-top:12px;color:var(--text)}
+.org-history-card dd{margin:3px 0 0;color:var(--muted);line-height:1.6;overflow-wrap:anywhere}
+.org-section-title{text-align:center;margin:32px 0 18px}.org-section-title h2{font-size:clamp(25px,4vw,34px);margin:8px 0}.org-section-title p{color:var(--muted);line-height:1.7;max-width:700px;margin:auto}
+.org-vision{padding:23px;border-radius:20px;background:linear-gradient(135deg,#075eaa,#0878c9);color:#fff;margin-bottom:16px;text-align:center}
+.org-vision .org-symbol{margin:0 auto 12px;background:#ffffff20;color:#fff}
+.org-vision h3{font-size:21px;margin:4px 0 8px;color:#fff}.org-vision p{margin:0;line-height:1.8;color:#edf6ff}
+.org-mission-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.org-mission-card{padding:22px;border:1px solid var(--line);border-radius:19px;background:var(--surface);box-shadow:var(--shadow);min-height:175px}
+.org-symbol{width:58px;height:58px;border-radius:50%;display:grid;place-items:center;background:#0870bd;color:#fff;font-size:27px;margin-bottom:16px;flex:0 0 auto}
+.org-mission-card h3{font-size:18px;line-height:1.35;margin:0 0 10px;color:var(--text)}
+.org-mission-card p{font-size:14px;line-height:1.75;color:var(--muted);margin:0}
+.org-closing{margin-top:16px;padding:23px;border-radius:19px;background:linear-gradient(120deg,#075eaa,#0878c9);color:#fff;text-align:center}
+.org-closing b{display:block;font-size:clamp(17px,3vw,22px);letter-spacing:.5px}.org-closing p{margin:8px auto 0;max-width:760px;line-height:1.7;color:#edf6ff}
+@media(max-width:650px){.org-history,.org-mission-grid{grid-template-columns:1fr}.org-history-card{padding:16px}.org-mission-card{padding:20px;min-height:0}.org-home{margin-top:20px}.org-intro{padding:20px 8px 14px!important}}
+
 </style>
 </head>
 <body>
@@ -326,6 +351,30 @@ body.logged-in #publicIntro,body.logged-in #landingNote{display:none!important}
       <div class="card span6"><h3>Status Keanggotaan Saya</h3><div id="myStatus"></div></div>
       <div class="card span6"><h3>Siaran & Informasi Pengurus</h3><div id="latest">Informasi resmi akan tampil di sini setelah pengurus menerbitkan agenda atau pengumuman.</div></div>
     </div>
+
+    <section class="org-home" aria-label="Profil organisasi GSPMII">
+      <div class="org-intro">
+        <span class="org-kicker">PROFIL ORGANISASI</span>
+        <h2>GSPMII</h2>
+        <p>Gabungan Serikat Pekerja Manufaktur Independen Indonesia. Organisasi pekerja yang menjadi wadah persatuan, perlindungan, dan perjuangan hak serta kesejahteraan kaum pekerja.</p>
+      </div>
+      <div class="org-section-title"><span class="org-kicker">LEGALITAS ORGANISASI</span><h2>Sejarah Pencatatan</h2><p>Informasi pencatatan organisasi sebagaimana ditampilkan pada profil resmi GSPMII.</p></div>
+      <div class="org-history">
+        <article class="org-history-card"><h3>Pencatatan 2001</h3><dl><dt>Nomor Bukti Pencatatan</dt><dd>154/V/N/IX/2001</dd><dt>Tanggal</dt><dd>18 September 2001</dd><dt>Dikeluarkan oleh</dt><dd>Kantor Departemen Tenaga Kerja Kotamadya Jakarta Selatan</dd></dl></article>
+        <article class="org-history-card"><h3>Pencatatan 2009</h3><dl><dt>Nomor Bukti Pencatatan</dt><dd>489/1/P/VI/2009</dd><dt>Tanggal</dt><dd>5 Juni 2009</dd><dt>Dikeluarkan oleh</dt><dd>Suku Dinas Tenaga Kerja dan Transmigrasi Jakarta Pusat</dd></dl></article>
+      </div>
+      <div class="org-section-title"><span class="org-kicker">ARAH PERJUANGAN</span><h2>Visi &amp; Misi GSPMII</h2><p>Menjadi Serikat Pekerja Profesional sebagai wadah untuk melindungi dan memperjuangkan hak-hak pekerja.</p></div>
+      <article class="org-vision"><div class="org-symbol">◎</div><h3>Visi GSPMII</h3><p>Menjadi Serikat Pekerja Profesional sebagai wadah untuk melindungi dan memperjuangkan hak-hak pekerja.</p></article>
+      <div class="org-mission-grid">
+        <article class="org-mission-card"><div class="org-symbol">⚑</div><h3>Mewujudkan Cita-cita Proklamasi</h3><p>Turut serta dalam mewujudkan cita-cita Proklamasi Kemerdekaan 17 Agustus 1945, khususnya jiwa Pasal 27, 28, dan 33 UUD 1945.</p></article>
+        <article class="org-mission-card"><div class="org-symbol">⚒</div><h3>Mencerdaskan Kaum Pekerja</h3><p>Meningkatkan pendidikan formal maupun informal bagi pekerja, guna mensejajarkan kecerdasan pekerja dengan pengusaha.</p></article>
+        <article class="org-mission-card"><div class="org-symbol">♧</div><h3>Persatuan &amp; Solidaritas</h3><p>Menghimpun dan menyatukan kaum pekerja dalam lapangan pekerjaan serta mewujudkan rasa kesetiakawanan dan solidaritas di antara sesama pekerja.</p></article>
+        <article class="org-mission-card"><div class="org-symbol">♡</div><h3>Kesejahteraan Pekerja</h3><p>Mewujudkan dan meningkatkan kesejahteraan kaum pekerja beserta keluarganya, serta memperbaiki syarat-syarat kerja.</p></article>
+        <article class="org-mission-card"><div class="org-symbol">◇</div><h3>Upah Berdasarkan KHL</h3><p>Memperjuangkan peningkatan upah berdasarkan Kebutuhan Hidup Layak dan menolak secara tegas sistem kerja outsourcing yang eksploitatif.</p></article>
+        <article class="org-mission-card"><div class="org-symbol">⚖</div><h3>Melindungi Hak Pekerja</h3><p>Menjadi wadah profesional yang melindungi dan memperjuangkan hak-hak pekerja secara mandiri, demokratis, dan bertanggung jawab.</p></article>
+      </div>
+      <div class="org-closing"><b>BERSATU DALAM SOLIDARITAS, KUAT DALAM PERJUANGAN.</b><p>Kesadaran, persatuan, dan keberanian untuk saling menguatkan adalah fondasi organisasi pekerja yang kuat.</p></div>
+    </section>
   </section>
   <section id="p-directory" class="page hidden"><div class="card"><h2>Direktori Anggota</h2><p class="sub">Kenali rekan seperjuangan. Informasi pribadi dan data sensitif tidak ditampilkan.</p><div id="directoryRows"></div></div></section>
   <section id="p-profile" class="page hidden"><div class="card"><h2>Profil dan Data Diri Anggota</h2><div class="profile-photo-box"><img id="myPhotoPreview" class="profile-photo" alt="Foto profil anggota" src=""/><div><b>Foto Profil</b><p class="sub">JPG, PNG, atau WEBP · maksimal 5 MB</p><input id="myPhoto" type="file" accept="image/jpeg,image/png,image/webp"></div></div><div id="profileInfo"></div><form id="profileForm">
