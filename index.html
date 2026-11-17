@@ -405,7 +405,7 @@ function message(el,s,err=false){el.textContent=s;el.className="message"+(err?" 
 function auth(mode="loginForm"){$("loginSolidarity").classList.toggle("hidden",mode!=="loginForm");$("registerPrompt").classList.toggle("hidden",mode!=="loginForm");$("publicIntro").classList.remove("hidden");$("landingNote").classList.add("hidden");$("auth").classList.remove("hidden");$("app").classList.add("hidden");$("mobileDock").classList.add("hidden");$("mobileMenu").classList.add("hidden");document.body.classList.remove("logged-in");document.body.removeAttribute("data-page");["loginForm","registerForm","resetForm","newPassForm"].forEach(x=>$(x).classList.toggle("hidden",x!==mode))}
 $("settingTheme").onclick=()=>{setTheme(document.documentElement.dataset.theme==="dark"?"light":"dark");$("themeDescription").textContent=document.documentElement.dataset.theme==="dark"?"Mode gelap aktif":"Mode terang aktif"};
 $("settingPassword").onclick=async()=>{const pw=prompt("Masukkan kata sandi baru (minimal 8 karakter):");if(!pw)return;if(pw.length<8){alert("Kata sandi minimal 8 karakter.");return}const {error}=await db.auth.updateUser({password:pw});if(error)alert("Gagal mengubah kata sandi: "+error.message);else alert("Kata sandi berhasil diperbarui.")};
-$("loginTab").onclick=()=>auth();$("registerTab").onclick=()=>auth("registerForm");$("forgot").onclick=()=>{$("resetEmail").value=$("email").value;auth("resetForm")};$("backLogin").onclick=()=>auth();
+if($("loginTab"))$("loginTab").onclick=()=>auth();$("registerTab").onclick=()=>auth("registerForm");$("forgot").onclick=()=>{$("resetEmail").value=$("email").value;auth("resetForm")};$("backLogin").onclick=()=>auth();
 function page(p){document.body.dataset.page=p;document.querySelectorAll(".page").forEach(x=>x.classList.toggle("hidden",x.id!=="p-"+p));document.querySelectorAll("[data-p]").forEach(x=>x.classList.toggle("active",x.dataset.p===p));$("mobileMenu").classList.add("hidden");if(p==="card")drawCard().catch(e=>message($("appMsg"),"Gagal memuat E-KTA: "+e.message,true));window.scrollTo({top:0,behavior:"smooth"})}
 document.querySelectorAll("[data-p],[data-go]").forEach(b=>b.onclick=()=>{let p=b.dataset.p||b.dataset.go;if(["members","form","verify","export","access"].includes(p)&&!admin)return;page(p)});
 const badge=s=>`<span class="pill ${s==="menunggu"?"pending":s==="ditolak"?"rejected":""}">${s==="disetujui"?"Aktif":s==="ditolak"?"Ditolak":"Menunggu"}</span>`;
@@ -447,7 +447,27 @@ $("agendaForm").onsubmit=async e=>{e.preventDefault();let {error}=await db.from(
 $("agendaRows").onclick=async e=>{let id=e.target.dataset.agdel;if(!id||!confirm("Hapus agenda?"))return;let {error}=await db.from("agenda_gspmii").delete().eq("id",id);if(error){message($("appMsg"),error.message,true);return}await loadAgenda()};
 $("export").onclick=()=>{let cols=["nama_lengkap","nomor_anggota","email","no_hp","unit_kerja","jabatan","nik","alamat","status_verifikasi","peran","tanggal_daftar"],head=["Nama","Nomor Anggota","Email","HP","Unit Kerja","Jabatan","NIK","Alamat","Status","Hak Akses","Tanggal Daftar"];let q=[head,...rows.map(m=>cols.map(k=>m[k]||""))],cell=v=>'"'+String(v??"").replace(/"/g,'""')+'"';let blob=new Blob(["\ufeff"+q.map(r=>r.map(cell).join(";")).join("\r\n")],{type:"text/csv;charset=utf-8"}),a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="Data_Anggota_GSPMII.csv";a.click();URL.revokeObjectURL(a.href)};
 async function enter(){ $("publicIntro").classList.add("hidden");$("landingNote").classList.add("hidden");$("auth").classList.add("hidden");$("app").classList.remove("hidden");document.body.classList.add("logged-in");$("mobileDock").classList.remove("hidden");try{await getMe();document.querySelectorAll(".admin").forEach(x=>x.classList.toggle("hidden",!admin));document.querySelectorAll(".member-only").forEach(x=>x.classList.toggle("hidden",admin));await renderProfile();await drawCard();await loadAgenda();if(admin)await loadAdmin();else["total","active","new","pending"].forEach(x=>$(x).textContent="—");page("home")}catch(e){message($("appMsg"),"Gagal memuat data: "+e.message,true)}}
-$("loginForm").onsubmit=async e=>{e.preventDefault();let {data,error}=await db.auth.signInWithPassword({email:$("email").value.trim(),password:$("password").value});if(error){message($("authMsg"),error.message,true);return}user=data.user;await enter()};
+$("loginForm").onsubmit=async e=>{
+ e.preventDefault();
+ const btn=$("loginForm").querySelector('button[type="submit"]');
+ const original=btn?.textContent||"Masuk";
+ if(btn){btn.disabled=true;btn.textContent="Memeriksa...";}
+ $("authMsg").classList.add("hidden");
+ try{
+  if(!db)throw new Error("Koneksi aplikasi belum siap. Muat ulang halaman.");
+  const email=$("email").value.trim();
+  const password=$("password").value;
+  if(!email||!password)throw new Error("Email dan kata sandi wajib diisi.");
+  const {data,error}=await db.auth.signInWithPassword({email,password});
+  if(error)throw error;
+  if(!data?.user)throw new Error("Login belum menghasilkan sesi pengguna. Coba lagi.");
+  user=data.user;
+  await enter();
+ }catch(err){
+  console.error("Login GSPMII gagal:",err);
+  message($("authMsg"),"Login gagal: "+(err?.message||"Terjadi kesalahan tidak dikenal."),true);
+ }finally{if(btn){btn.disabled=false;btn.textContent=original;}}
+};
 $("registerForm").onsubmit=async e=>{e.preventDefault();let email=$("rEmail").value.trim().toLowerCase(),{data,error}=await db.auth.signUp({email,password:$("rPass").value,options:{data:{nama_lengkap:$("rName").value.trim(),no_hp:$("rPhone").value.trim(),alamat:$("rAddress").value.trim()}}});if(error){message($("authMsg"),error.message,true);return}if(data.session){user=data.user;await enter()}else{auth();$("email").value=email;message($("authMsg"),"Pendaftaran diterima. Konfirmasi email terlebih dahulu, lalu masuk. Profil anggota dibuat otomatis oleh database.")}};
 $("resetForm").onsubmit=async e=>{e.preventDefault();let {error}=await db.auth.resetPasswordForEmail($("resetEmail").value.trim(),{redirectTo:location.origin+location.pathname});message($("authMsg"),error?error.message:"Tautan reset diminta. Periksa email dan folder Spam.",!!error)};
 $("newPassForm").onsubmit=async e=>{e.preventDefault();if($("newPass").value.length<8||$("newPass").value!==$("newPass2").value){message($("authMsg"),"Kata sandi harus sama dan minimal 8 karakter.",true);return}let {error}=await db.auth.updateUser({password:$("newPass").value});if(error){message($("authMsg"),error.message,true);return}await db.auth.signOut();auth();message($("authMsg"),"Kata sandi berhasil diubah. Silakan masuk.")};
