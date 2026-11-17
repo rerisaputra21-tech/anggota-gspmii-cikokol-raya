@@ -249,6 +249,14 @@ body.logged-in #publicIntro,body.logged-in #landingNote{display:none!important}
 
 /* Modul tambahan portal GSPMII */
 .stats-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:12px 0}.stats-row .stat{min-height:86px}.feature-item{border:1px solid var(--line);background:var(--surface2);border-radius:14px;padding:14px;margin:10px 0}.feature-item h3{margin:0 0 6px}.feature-item p{margin:6px 0;color:var(--muted);white-space:pre-wrap}.feature-meta{font-size:12px;color:var(--muted)}.feature-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.feature-actions select{max-width:220px}.qr-box canvas,.qr-box img{margin:auto}
+
+body.logged-in #settingsShortcut{display:inline-flex!important}
+body:not(.logged-in) #settingsShortcut{display:none!important}
+/* Pintasan Pengaturan: di pojok kanan atas, tidak mengganggu navigasi */
+.settings-shortcut{width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:var(--surface3);color:var(--text);font-size:20px;display:inline-flex;align-items:center;justify-content:center;cursor:pointer}
+.settings-shortcut:hover,.settings-shortcut.active{border-color:var(--gold);color:var(--gold)}
+.login-tools{display:flex;align-items:center;gap:7px}
+@media(max-width:680px){.settings-shortcut{width:31px;height:31px;font-size:18px}}
 </style>
 </head>
 <body>
@@ -265,7 +273,7 @@ body.logged-in #publicIntro,body.logged-in #landingNote{display:none!important}
     
   </div>
 </header>
-<div class="login-tools"><select id="languageSelect" aria-label="Bahasa aplikasi"><option value="id">ID</option><option value="en">EN</option></select><button id="themeBtn" class="theme-fab" type="button" aria-label="Aktifkan mode terang" title="Mode terang">☀️</button></div>
+<div class="login-tools"><button id="settingsShortcut" data-p="settings" class="settings-shortcut hidden" type="button" aria-label="Buka Pengaturan" title="Pengaturan">⚙</button><select id="languageSelect" aria-label="Bahasa aplikasi"><option value="id">ID</option><option value="en">EN</option></select><button id="themeBtn" class="theme-fab" type="button" aria-label="Aktifkan mode terang" title="Mode terang">☀️</button></div>
 <main class="wrap">
 <section id="publicIntro" class="landing-grid">
   <div class="hero-copy">
@@ -328,7 +336,6 @@ body.logged-in #publicIntro,body.logged-in #landingNote{display:none!important}
     <button data-p="home" class="active">Beranda</button>
     <button data-p="profile">Profil Saya</button>
     <button data-p="directory">Direktori Anggota</button>
-    <button data-p="settings">Pengaturan</button>
     <button data-p="members" class="admin hidden">Data Anggota</button>
     <button data-p="form" class="admin hidden">Formulir Anggota</button>
     <button data-p="verify" class="admin hidden">Verifikasi</button>
