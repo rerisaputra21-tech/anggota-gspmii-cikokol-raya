@@ -35,7 +35,7 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}button:focus-vis
 .brand h1{margin:0;font-size:clamp(15px,3.5vw,21px);line-height:1.2;letter-spacing:.2px;color:#fff}
 .brand p{margin:4px 0 0;color:#c0ccdc;font-size:11px;line-height:1.35}
 .header-login{margin-right:54px;background:#1b2941;border:1px solid #364763;color:#f5f7fb;padding:9px 15px;border-radius:999px;font-weight:800;white-space:nowrap}
-.theme-fab{position:fixed;right:15px;top:calc(env(safe-area-inset-top, 0px) + 16px);z-index:30;width:46px;height:46px;border-radius:50%;border:1px solid #ffffff55;background:#15233d;color:#fff;font-size:20px;box-shadow:0 8px 24px #0006;display:grid;place-items:center}
+.theme-fab{position:static;right:auto;top:auto;z-index:5;width:40px;height:40px;border-radius:50%;border:1px solid #ffffff55;background:#15233d;color:#fff;font-size:20px;box-shadow:0 8px 24px #0006;display:grid;place-items:center}
 .wrap{max-width:1120px;margin:auto;padding:20px 16px 44px}
 .landing-grid{display:grid;grid-template-columns:minmax(0,1.08fr) minmax(310px,.92fr);gap:24px;align-items:center;padding:22px 0 8px}
 .hero-copy{padding:20px 4px}
@@ -259,9 +259,9 @@ body.logged-in #publicIntro,body.logged-in #landingNote{display:none!important}
 
 /* Final sesuai rancangan: halaman publik hanya login, kontrol tema/bahasa, dan naskah solidaritas */
 .public-showcase{display:none!important}
-.login-tools{position:fixed;right:15px;top:calc(env(safe-area-inset-top, 0px) + 16px);z-index:31;display:flex;align-items:center;gap:8px}
-.login-tools select{height:42px;min-width:58px;border-radius:22px;padding:0 9px;background:#15233d;color:#fff;border:1px solid #ffffff55;font-weight:800}
-.login-tools .theme-fab{position:static;width:42px;height:42px}
+.login-tools{position:relative;z-index:5;display:flex;align-items:center;justify-content:flex-end;gap:9px;padding:9px 16px;background:var(--bg);border-bottom:1px solid var(--line)}
+.login-tools select{height:40px;min-width:132px;border-radius:12px;padding:0 12px;background:var(--surface);color:var(--text);border:1px solid var(--line);font-weight:700}
+.login-tools .theme-fab{position:static;width:40px;height:40px}
 #auth.auth-card{margin-top:clamp(18px,6vh,58px)}
 .register-prompt{margin:14px 0 4px;text-align:center;color:#718096;font-size:12px;line-height:1.5}.register-prompt button{display:inline;border:0;background:transparent;color:#23458f;font-size:12px;font-weight:800;text-decoration:underline;padding:3px 4px;min-height:0;cursor:pointer}
 .login-solidarity{margin-top:24px;padding-top:20px;border-top:1px solid #e8edf4;color:#64748b;font-size:13px;line-height:1.8}
@@ -312,7 +312,7 @@ body:not(.logged-in) #settingsShortcut{display:none!important}
 .settings-shortcut{width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:var(--surface3);color:var(--text);font-size:20px;display:inline-flex;align-items:center;justify-content:center;cursor:pointer}
 .settings-shortcut:hover,.settings-shortcut.active{border-color:var(--gold);color:var(--gold)}
 .login-tools{display:flex;align-items:center;gap:7px}
-@media(max-width:680px){.settings-shortcut{width:31px;height:31px;font-size:18px}}
+@media(max-width:680px){.settings-shortcut{width:38px;height:38px;font-size:18px}.login-tools{padding:8px 14px}.login-tools select{min-width:124px;height:38px}.login-tools .theme-fab{width:38px;height:38px}}
 
 .kas-chart-card{background:var(--surface2);border:1px solid var(--line);border-radius:16px;padding:15px;margin:14px 0}
 .kas-chart-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;flex-wrap:wrap}
@@ -429,6 +429,12 @@ body:not(.logged-in) #settingsShortcut{display:none!important}
     <div class="menu-group-title admin hidden">PENGELOLAAN PORTAL</div>
     <button data-p="export" class="admin hidden"><span class="menu-icon">⇩</span><span><b>Ekspor Excel</b><small>Unduh laporan administrasi</small></span><i>›</i></button>
     <button data-p="access" class="admin hidden"><span class="menu-icon">⚙</span><span><b>Hak Akses</b><small>Pengaturan peran dan kewenangan</small></span><i>›</i></button>
+    <div class="menu-group-title">PENGUATAN & PERLINDUNGAN ANGGOTA</div>
+    <button data-p="rights"><span class="menu-icon">⚖</span><span><b>Kalkulator Hak Pekerja</b><small>Simulasi estimasi hak ketenagakerjaan</small></span><i>›</i></button>
+    <button data-p="cases"><span class="menu-icon">▣</span><span><b>Monitoring Kasus PHK</b><small>Pencatatan dan pemantauan perkara</small></span><i>›</i></button>
+    <button data-p="aspirations"><span class="menu-icon">✉</span><span><b>Kotak Aspirasi</b><small>Masukan dan usulan anggota</small></span><i>›</i></button>
+    <button data-p="regulations"><span class="menu-icon">§</span><span><b>Pusat Regulasi</b><small>Referensi aturan ketenagakerjaan</small></span><i>›</i></button>
+    <button data-p="academy"><span class="menu-icon">▤</span><span><b>Pendidikan Serikat</b><small>Materi belajar hak pekerja</small></span><i>›</i></button>
   </nav>
   <section id="p-home" class="page">
     <div class="grid">
@@ -465,6 +471,17 @@ body:not(.logged-in) #settingsShortcut{display:none!important}
       <div class="org-closing"><b>BERSATU DALAM SOLIDARITAS, KUAT DALAM PERJUANGAN.</b><p>Kesadaran, persatuan, dan keberanian untuk saling menguatkan adalah fondasi organisasi pekerja yang kuat.</p></div>
     </section>
   </section>
+  <section id="p-rights" class="page hidden">
+    <div class="card"><h2>Kalkulator Hak Pekerja</h2><p class="sub">Simulasi awal untuk membantu memahami komponen hak. Hasil bukan penetapan resmi dan harus diperiksa berdasarkan alasan PHK, masa kerja, upah, peraturan yang berlaku, serta putusan atau kesepakatan terkait.</p>
+      <div class="grid"><label class="field">Upah sebulan (Rp)<input id="krwWage" type="number" min="0" placeholder="Contoh: 6858799"></label><label class="field">Masa kerja (tahun)<input id="krwYears" type="number" min="0" step="0.1" placeholder="Contoh: 9.5"></label><label class="field">Sisa cuti (hari)<input id="krwLeave" type="number" min="0" value="0"></label><label class="field">Kompensasi lain (Rp)<input id="krwOther" type="number" min="0" value="0"></label></div>
+      <button class="btn" type="button" id="krwCalc">Hitung simulasi</button><div id="krwResult" class="message hidden" aria-live="polite"></div>
+      <p class="sub">Catatan: kalkulator ini belum menentukan faktor pengali pesangon menurut alasan PHK. Jangan gunakan hasilnya sebagai angka final untuk menandatangani kesepakatan.</p>
+    </div>
+  </section>
+  <section id="p-cases" class="page hidden"><div class="card"><h2>Monitoring Kasus PHK</h2><p class="sub">Ruang pencatatan kasus secara terbatas. Data kasus bersifat rahasia dan tidak boleh ditampilkan ke seluruh anggota.</p><div class="message">Modul ini disiapkan sebagai tampilan awal. Penyimpanan, nomor perkara, penugasan pendamping, dan riwayat status harus dihubungkan ke tabel Supabase dengan kebijakan RLS khusus sebelum digunakan.</div><ul><li>Nomor laporan dan tanggal penerimaan</li><li>Kronologi dan dokumen pendukung</li><li>Pendamping atau pengurus penanggung jawab</li><li>Status: diterima, verifikasi, bipartit, Disnaker, PHI, selesai</li></ul></div></section>
+  <section id="p-aspirations" class="page hidden"><div class="card"><h2>Kotak Aspirasi Anggota</h2><p class="sub">Sampaikan masukan untuk penguatan organisasi. Jangan masukkan NIK, data kesehatan, atau informasi pribadi sensitif pada formulir uji coba ini.</p><label class="field">Topik<input id="aspTopic" maxlength="120" placeholder="Contoh: Pendidikan hak pekerja"></label><label class="field">Aspirasi<textarea id="aspBody" rows="5" maxlength="2000" placeholder="Tuliskan aspirasi atau usulan..."></textarea></label><button class="btn" id="aspSend" type="button">Periksa isian</button><div id="aspResult" class="message hidden"></div><p class="sub">Formulir ini belum mengirim atau menyimpan data. Integrasi penyimpanan privat perlu disiapkan terlebih dahulu.</p></div></section>
+  <section id="p-regulations" class="page hidden"><div class="card"><h2>Pusat Regulasi Ketenagakerjaan</h2><p class="sub">Daftar referensi untuk bahan belajar. Pastikan selalu memeriksa perubahan peraturan dan status keberlakuannya.</p><ul><li>UU No. 13 Tahun 2003 tentang Ketenagakerjaan sebagaimana telah diubah.</li><li>UU No. 6 Tahun 2023 tentang Penetapan Perppu Cipta Kerja menjadi Undang-Undang.</li><li>PP No. 35 Tahun 2021 tentang PKWT, alih daya, waktu kerja dan waktu istirahat, serta PHK.</li><li>Peraturan Perusahaan dan/atau Perjanjian Kerja Bersama yang berlaku di tempat kerja.</li></ul><p class="sub">Dokumen PDF resmi dan fitur pencarian regulasi dapat ditambahkan setelah sumber dokumen diverifikasi.</p></div></section>
+  <section id="p-academy" class="page hidden"><div class="card"><h2>Pendidikan Serikat Pekerja</h2><p class="sub">Materi pembelajaran bertahap untuk anggota.</p><div class="grid"><article class="card span6"><h3>Modul 1 — Dasar Berserikat</h3><p>Tujuan serikat pekerja, hak berserikat, dan peran anggota.</p></article><article class="card span6"><h3>Modul 2 — Hubungan Kerja</h3><p>PKWT, PKWTT, peraturan perusahaan, dan PKB.</p></article><article class="card span6"><h3>Modul 3 — Perselisihan Hubungan Industrial</h3><p>Perundingan bipartit, mediasi, dan proses penyelesaian perselisihan.</p></article><article class="card span6"><h3>Modul 4 — Hak Saat PHK</h3><p>Komponen hak dan cara memeriksa perhitungan sesuai dasar hukum.</p></article></div><p class="sub">Materi ini merupakan kerangka awal, belum menyediakan ujian atau sertifikat digital.</p></div></section>
   <section id="p-directory" class="page hidden"><div class="card"><h2>Direktori Anggota</h2><p class="sub">Kenali rekan seperjuangan. Informasi pribadi dan data sensitif tidak ditampilkan.</p><div id="directoryRows"></div></div></section>
   <section id="p-profile" class="page hidden"><div class="card"><h2>Profil dan Data Diri Anggota</h2><div class="profile-photo-box"><img id="myPhotoPreview" class="profile-photo" alt="Foto profil anggota" src=""/><div><b>Foto Profil</b><p class="sub">JPG, PNG, atau WEBP · maksimal 5 MB</p><input id="myPhoto" type="file" accept="image/jpeg,image/png,image/webp"></div></div><div id="profileInfo"></div><form id="profileForm">
 <div class="field"><label>Nama lengkap</label><input id="myName" required></div>
@@ -516,6 +533,7 @@ body:not(.logged-in) #settingsShortcut{display:none!important}
   <div class="contact-card"><div><small>PENGURUS PUK SAT CIKOKOL RAYA</small><b>Reri Saputra</b><span>+62 812-9340-3706</span></div><a href="https://wa.me/6281293403706" target="_blank" rel="noopener"><svg viewBox="0 0 32 32" width="22" height="22" aria-label="WhatsApp" role="img"><path fill="#25D366" d="M16 2.7A13.1 13.1 0 0 0 4.7 22.4L3 29l6.8-1.8A13.2 13.2 0 1 0 16 2.7Z"/><path fill="#fff" d="M22.8 19.2c-.3-.2-2-1-2.3-1.1-.3-.1-.5-.2-.7.2-.2.3-.8 1.1-1 1.3-.2.2-.4.2-.7.1-.3-.2-1.4-.5-2.7-1.7-1-.9-1.7-2-1.9-2.3-.2-.3 0-.5.1-.6l.5-.6c.2-.2.2-.3.3-.5.1-.2 0-.4 0-.6s-.7-1.8-1-2.4c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.6.1-.9.4-.3.3-1.2 1.1-1.2 2.7s1.2 3.1 1.4 3.3c.2.2 2.3 3.5 5.6 4.9.8.4 1.4.6 1.9.7.8.2 1.5.2 2 .1.6-.1 2-.8 2.3-1.6.3-.8.3-1.5.2-1.6-.1-.2-.3-.3-.6-.4Z"/></svg></a></div>
   <h3>Tentang Organisasi</h3><p>Gabungan Serikat Pekerja Manufaktur Independen Indonesia merupakan wadah perjuangan, komunikasi, dan penguatan solidaritas pekerja. Melalui PUK SAT Cikokol Raya, portal ini menjadi sarana administrasi keanggotaan, penyampaian informasi, koordinasi kegiatan, serta penguatan hubungan antaranggota.</p>
   <p>Serikat pekerja hadir untuk memastikan suara pekerja tersampaikan, hak-hak normatif dihormati, dan setiap persoalan ketenagakerjaan dapat dikomunikasikan serta diperjuangkan melalui mekanisme yang tepat. Keanggotaan yang tertib, informasi yang terbuka, dan solidaritas yang terjaga menjadi fondasi organisasi yang kuat.</p>
+
   <p class="footer-motto">BERSATU · TERLINDUNGI · SEJAHTERA BERSAMA</p><small>© 2026 GSPMII PUK SAT Cikokol Raya. Seluruh hak cipta dilindungi.</small>
 </footer>
 </main>
@@ -544,7 +562,69 @@ body:not(.logged-in) #settingsShortcut{display:none!important}
 const SB="https://iyytbgwjkznngowptsqo.supabase.co",KEY="sb_publishable_rot8WQ443SBPE5hEPLLg4A_a5ix05wh", $=id=>document.getElementById(id);
 let db,user,me,admin=false,rows=[];
 function setTheme(t){document.documentElement.dataset.theme=t;localStorage.setItem("gspmii_theme",t);$("themeBtn").textContent=t==="dark"?"☀️":"🌙";$("themeBtn").setAttribute("aria-label",t==="dark"?"Aktifkan mode terang":"Aktifkan mode gelap");$("themeBtn").title=t==="dark"?"Mode terang":"Mode gelap"}setTheme(localStorage.getItem("gspmii_theme")||"dark");$("themeBtn").onclick=()=>setTheme(document.documentElement.dataset.theme==="dark"?"light":"dark");
-const langSelect=$("languageSelect");if(langSelect){langSelect.value=localStorage.getItem("gspmii_language")||"id";langSelect.onchange=()=>{localStorage.setItem("gspmii_language",langSelect.value);if(langSelect.value==="en"){alert("English preference saved. Some portal content remains in Indonesian.")}else{alert("Bahasa Indonesia dipilih.")}};}
+const langSelect=$("languageSelect");
+const langText={
+ id:{
+  brandSub:"Gabungan Serikat Pekerja Manufaktur Independen Indonesia",
+  menuGroups:["RUANG UTAMA","ADMINISTRASI KEANGGOTAAN","LAYANAN & INFORMASI","PENGELOLAAN PORTAL"],
+  menus:[
+   ["Beranda","Ringkasan portal dan aktivitas"],["Profil Saya","Informasi akun dan keanggotaan"],["Direktori Anggota","Kenali rekan seperjuangan"],
+   ["Data Anggota","Kelola data keanggotaan"],["Formulir Anggota","Tambah atau perbarui data"],["Verifikasi","Periksa pendaftaran anggota"],
+   ["Kartu Digital","E-KTA dan identitas anggota"],["Kalender & Agenda","Jadwal kegiatan organisasi"],["Layanan Pengaduan","Sampaikan aspirasi dan laporan"],
+   ["Pusat Dokumen","Arsip dan dokumen organisasi"],["Transparansi Keuangan","Laporan kas masuk dan keluar"],["Forum Diskusi","Ruang diskusi antaranggota"],
+   ["Berita & Dokumentasi","Kabar dan dokumentasi kegiatan"],["Notifikasi","Pemberitahuan portal"],["Ekspor Excel","Unduh laporan administrasi"],["Hak Akses","Pengaturan peran dan kewenangan"]
+  ],
+  settings:"Pengaturan",language:"Bahasa",themeLight:"Aktifkan mode terang",themeDark:"Aktifkan mode gelap"
+ },
+ en:{
+  brandSub:"Independent Indonesian Manufacturing Workers Union",
+  menuGroups:["MAIN AREA","MEMBERSHIP ADMINISTRATION","SERVICES & INFORMATION","PORTAL MANAGEMENT"],
+  menus:[
+   ["Home","Portal overview and activity"],["My Profile","Account and membership details"],["Member Directory","Meet fellow members"],
+   ["Member Data","Manage membership records"],["Member Form","Add or update member details"],["Verification","Review membership applications"],
+   ["Digital ID Card","Digital membership identity"],["Calendar & Events","Organization activity schedule"],["Member Complaints","Submit concerns and reports"],
+   ["Document Center","Organization files and archives"],["Financial Transparency","Income and expense reports"],["Discussion Forum","Member discussion space"],
+   ["News & Documentation","News and activity documentation"],["Notifications","Portal notifications"],["Export to Excel","Download administration reports"],["Access Control","Roles and permissions"]
+  ],
+  settings:"Settings",language:"Language",themeLight:"Switch to light mode",themeDark:"Switch to dark mode"
+ }
+};
+function applyLanguage(code){
+ const t=langText[code]||langText.id;
+ const groups=[...document.querySelectorAll("#nav .menu-group-title")];
+ groups.forEach((el,i)=>{if(t.menuGroups[i])el.textContent=t.menuGroups[i]});
+ const order=["home","profile","directory","members","form","verify","card","agenda","complaints","documents","dues","forum","news","notifications","export","access"];
+ order.forEach((key,i)=>{
+  document.querySelectorAll(`#nav [data-p="${key}"],#mobileMenu [data-p="${key}"]`).forEach(btn=>{
+   const title=btn.querySelector("b")||btn.childNodes[btn.childNodes.length-1];
+   const small=btn.querySelector("small");
+   if(btn.closest("#nav")){
+    if(title&&title.nodeType===1)title.textContent=t.menus[i][0];
+    if(small)small.textContent=t.menus[i][1];
+   }else{
+    const icon=btn.querySelector(".menu-icon");
+    btn.textContent="";
+    if(icon)btn.appendChild(icon);
+    btn.append(" "+t.menus[i][0]);
+   }
+  });
+ });
+ const brand=document.querySelector(".brand-copy p");
+ if(brand)brand.textContent=t.brandSub;
+ const settings=$("settingsShortcut");
+ if(settings){settings.title=t.settings;settings.setAttribute("aria-label",t.settings)}
+ if(langSelect)langSelect.setAttribute("aria-label",t.language);
+ $("themeBtn").title=document.documentElement.dataset.theme==="dark"?t.themeLight:t.themeDark;
+ $("themeBtn").setAttribute("aria-label",$("themeBtn").title);
+ document.documentElement.lang=code;
+ localStorage.setItem("gspmii_language",code);
+}
+if(langSelect){
+ langSelect.innerHTML='<option value="id">Bahasa Indonesia</option><option value="en">English</option>';
+ langSelect.value=localStorage.getItem("gspmii_language")||"id";
+ applyLanguage(langSelect.value);
+ langSelect.onchange=()=>applyLanguage(langSelect.value);
+}
 $("heroLogin").onclick=()=>{$("loginForm").classList.remove("hidden");auth("loginForm");$("email").focus()};
 $("heroRegister").onclick=()=>auth("registerForm");
 
@@ -556,7 +636,7 @@ function auth(mode="loginForm"){$("loginSolidarity").classList.toggle("hidden",m
 $("settingTheme").onclick=()=>{setTheme(document.documentElement.dataset.theme==="dark"?"light":"dark");$("themeDescription").textContent=document.documentElement.dataset.theme==="dark"?"Mode gelap aktif":"Mode terang aktif"};
 $("settingPassword").onclick=async()=>{const pw=prompt("Masukkan kata sandi baru (minimal 8 karakter):");if(!pw)return;if(pw.length<8){alert("Kata sandi minimal 8 karakter.");return}const {error}=await db.auth.updateUser({password:pw});if(error)alert("Gagal mengubah kata sandi: "+error.message);else alert("Kata sandi berhasil diperbarui.")};
 if($("loginTab"))$("loginTab").onclick=()=>auth();$("registerTab").onclick=()=>auth("registerForm");$("forgot").onclick=()=>{$("resetEmail").value=$("email").value;auth("resetForm")};$("backLogin").onclick=()=>auth();
-function page(p){document.body.dataset.page=p;document.querySelectorAll(".page").forEach(x=>x.classList.toggle("hidden",x.id!=="p-"+p));document.querySelectorAll("[data-p]").forEach(x=>x.classList.toggle("active",x.dataset.p===p));$("mobileMenu").classList.add("hidden");if(p==="directory")loadDirectory().catch(e=>message($("appMsg"),"Direktori belum dapat dimuat: "+e.message,true));if(p==="card"){drawCard().catch(e=>message($("appMsg"),"Gagal memuat E-KTA: "+e.message,true));renderMemberQr()}if(p==="complaints")loadComplaints().catch(e=>featureError("complaintRows",e));if(p==="documents")loadDocuments().catch(e=>featureError("documentRows",e));if(p==="dues")loadDues().catch(e=>featureError("duesRows",e));if(p==="forum")loadForum().catch(e=>featureError("forumRows",e));if(p==="news")loadNews().catch(e=>featureError("newsRows",e));if(p==="notifications")loadNotifications().catch(e=>featureError("notificationRows",e));const target=document.getElementById("p-"+p);if(target){target.scrollIntoView({behavior:"smooth",block:"start"});}}
+function page(p){document.body.dataset.page=p;document.querySelectorAll(".page").forEach(x=>x.classList.toggle("hidden",x.id!=="p-"+p));document.querySelectorAll("[data-p]").forEach(x=>x.classList.toggle("active",x.dataset.p===p));$("mobileMenu").classList.add("hidden");if(p==="directory")loadDirectory().catch(e=>message($("appMsg"),"Direktori belum dapat dimuat: "+e.message,true));if(p==="card"){drawCard().catch(e=>message($("appMsg"),"Gagal memuat E-KTA: "+e.message,true));renderMemberQr()}if(p==="complaints")loadComplaints().catch(e=>featureError("complaintRows",e));if(p==="documents")loadDocuments().catch(e=>featureError("documentRows",e));if(p==="dues")loadDues().catch(e=>featureError("duesRows",e));if(p==="forum")loadForum().catch(e=>featureError("forumRows",e));if(p==="news")loadNews().catch(e=>featureError("newsRows",e));if(p==="notifications")loadNotifications().catch(e=>featureError("notificationRows",e));const target=document.getElementById("p-"+p);if(target)target.scrollIntoView({behavior:"smooth",block:"start"})}
 document.querySelectorAll("[data-p],[data-go]").forEach(b=>b.onclick=()=>{let p=b.dataset.p||b.dataset.go;if(["members","form","verify","export","access"].includes(p)&&!admin)return;page(p)});
 const badge=s=>`<span class="pill ${s==="menunggu"?"pending":s==="ditolak"?"rejected":""}">${s==="disetujui"?"Aktif":s==="ditolak"?"Ditolak":"Menunggu"}</span>`;
 async function getMe(){let {data,error}=await db.from("anggota_gspmii").select("*").eq("user_id",user.id).maybeSingle();if(error)throw error;if(!data)throw new Error("Profil anggota belum terbentuk. Hubungi pengurus; jangan membuat profil manual dari browser.");me=data;admin=me.peran==="pengurus"&&me.status_verifikasi==="disetujui"}
@@ -708,7 +788,11 @@ $("registerForm").onsubmit=async e=>{e.preventDefault();let email=$("rEmail").va
 $("resetForm").onsubmit=async e=>{e.preventDefault();let {error}=await db.auth.resetPasswordForEmail($("resetEmail").value.trim(),{redirectTo:location.origin+location.pathname});message($("authMsg"),error?error.message:"Tautan reset diminta. Periksa email dan folder Spam.",!!error)};
 $("newPassForm").onsubmit=async e=>{e.preventDefault();if($("newPass").value.length<8||$("newPass").value!==$("newPass2").value){message($("authMsg"),"Kata sandi harus sama dan minimal 8 karakter.",true);return}let {error}=await db.auth.updateUser({password:$("newPass").value});if(error){message($("authMsg"),error.message,true);return}await db.auth.signOut();auth();message($("authMsg"),"Kata sandi berhasil diubah. Silakan masuk.")};
 $("logout").onclick=async()=>{await db.auth.signOut();user=me=null;admin=false;auth()};
-async function init(){db=window.supabase.createClient(SB,KEY);if(location.hash.includes("type=recovery"))auth("newPassForm");let {data}=await db.auth.getSession();if(data.session){user=data.session.user;await enter()}db.auth.onAuthStateChange((ev,s)=>{if(ev==="PASSWORD_RECOVERY")auth("newPassForm");if(ev==="SIGNED_OUT"){user=me=null;admin=false;auth()}})}init().catch(e=>message($("authMsg"),e.message,true));
+async function init(){db=window.supabase.createClient(SB,KEY);if(location.hash.includes("type=recovery"))auth("newPassForm");let {data}=await db.auth.getSession();if(data.session){user=data.session.user;await enter()}db.auth.onAuthStateChange((ev,s)=>{if(ev==="PASSWORD_RECOVERY")auth("newPassForm");if(ev==="SIGNED_OUT"){user=me=null;admin=false;auth()}})}
+const _idr=n=>new Intl.NumberFormat("id-ID",{style:"currency",currency:"IDR",maximumFractionDigits:0}).format(n||0);
+$("krwCalc")?.addEventListener("click",()=>{const w=Number($("krwWage").value),y=Number($("krwYears").value),l=Number($("krwLeave").value||0),o=Number($("krwOther").value||0),box=$("krwResult");if(!(w>0)||!(y>=0)||l<0||o<0){box.textContent="Isi upah, masa kerja, dan komponen lain dengan angka yang valid.";box.classList.remove("hidden");return;}const upahCuti=w/25*l;box.innerHTML=`<b>Komponen yang dimasukkan</b><br>Upah bulanan: ${_idr(w)}<br>Masa kerja: ${y} tahun<br>Estimasi upah pengganti cuti (asumsi 25 hari kerja): ${_idr(upahCuti)}<br>Kompensasi lain yang dimasukkan: ${_idr(o)}<br><hr><b>Subtotal komponen input: ${_idr(upahCuti+o)}</b><br><small>Belum termasuk pesangon dan UPMK. Perhitungan hak PHK memerlukan alasan PHK dan dasar hukum yang tepat.</small>`;box.classList.remove("hidden");});
+$("aspSend")?.addEventListener("click",()=>{const t=$("aspTopic").value.trim(),b=$("aspBody").value.trim(),r=$("aspResult");r.textContent=t&&b?"Isian sudah lengkap. Belum dikirim atau disimpan karena penyimpanan privat belum diaktifkan.":"Isi topik dan aspirasi terlebih dahulu.";r.classList.remove("hidden");});
+init().catch(e=>message($("authMsg"),e.message,true));
 })();
 </script>
 </body>
