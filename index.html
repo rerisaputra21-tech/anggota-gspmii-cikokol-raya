@@ -77,9 +77,13 @@ textarea{min-height:88px}
 .userbar h2{margin:0;font-size:clamp(20px,4vw,27px);color:#fff}
 .userbar .muted{color:#b5c4d6}
 .userrole{font-size:11px;letter-spacing:1px;color:var(--gold);font-weight:850}
-.desktop-nav{display:flex;gap:7px;overflow:auto;padding:4px 1px 14px;margin-bottom:10px;scrollbar-width:thin}
-.desktop-nav button{white-space:nowrap;background:var(--surface);color:var(--muted);border:1px solid var(--line);padding:10px 13px;border-radius:12px;font-size:13px;font-weight:700}
-.desktop-nav button.active{background:#1b3b64;border-color:#315b8a;color:#fff}
+.desktop-nav{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;padding:14px;margin:0 0 18px;background:linear-gradient(145deg,var(--surface),var(--surface2));border:1px solid var(--line);border-radius:20px}
+.menu-group-title{grid-column:1/-1;padding:10px 3px 2px;color:var(--gold);font-size:10px;font-weight:900;letter-spacing:1.5px}
+.desktop-nav button{display:flex;align-items:center;gap:12px;min-width:0;text-align:left;background:var(--surface2);color:var(--text);border:1px solid var(--line);padding:12px 13px;border-radius:14px;font-size:13px;font-weight:700}
+.desktop-nav button>span:nth-child(2){display:flex;flex-direction:column;gap:3px;min-width:0;flex:1}
+.desktop-nav button b{font-size:13px}.desktop-nav button small{font-size:10px;color:var(--muted);font-weight:500}.desktop-nav button i{font-style:normal;color:var(--muted);font-size:20px}
+.menu-icon{display:inline-flex;align-items:center;justify-content:center;flex:0 0 38px;width:38px;height:38px;border-radius:12px;background:#1a3456;color:var(--gold);font-weight:900;font-size:17px}
+.desktop-nav button.active{background:#172f50;border-color:#bd9444;box-shadow:inset 3px 0 0 var(--gold)}.desktop-nav button.active .menu-icon{background:#284b73}.desktop-nav button:hover{border-color:#55749b;transform:translateY(-1px)}
 .grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:13px}
 .stat{grid-column:span 3;background:linear-gradient(145deg,#111d33,#0b1427);border:1px solid #283956;border-radius:18px;padding:17px;min-height:110px}
 .stat b{display:block;font-size:32px;color:var(--gold);letter-spacing:-1px;line-height:1.2;margin-bottom:8px}
@@ -124,16 +128,17 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:28px 18px 110
   .span6{grid-column:span 12}
   .quick{grid-template-columns:repeat(2,minmax(0,1fr))}
   .row{grid-template-columns:1fr}
-  .desktop-nav{display:none}
+  .desktop-nav{display:grid;grid-template-columns:1fr;position:static;gap:7px;padding:12px;margin-bottom:15px}
   .userbar{padding:15px;border-radius:17px}
   .search{flex-direction:column;align-items:stretch}
   .mobile-dock{position:fixed;display:flex;left:0;right:0;bottom:0;z-index:20;justify-content:space-around;gap:3px;background:rgba(12,22,43,.97);backdrop-filter:blur(14px);border-top:1px solid #2a3954;padding:8px 6px calc(8px + env(safe-area-inset-bottom));box-shadow:0 -8px 28px #0004}
   .mobile-dock button{border:0;background:transparent;color:#bdc8d9;min-width:0;flex:1;padding:5px 2px;border-radius:10px;font-size:10px;font-weight:700;display:flex;flex-direction:column;align-items:center;gap:2px}
   .mobile-dock button .ico{font-size:21px;line-height:1.2}
   .mobile-dock button.active{color:var(--gold)}
-  .mobile-menu{display:block;position:fixed;z-index:22;bottom:calc(70px + env(safe-area-inset-bottom));right:12px;left:12px;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:11px;box-shadow:0 18px 48px #0008}
-  .mobile-menu button{width:100%;text-align:left;background:var(--surface2);color:var(--text);border:1px solid var(--line);padding:12px;border-radius:10px;margin:3px 0;font-weight:700}
-  .mobile-menu button.active{border-color:var(--gold);color:var(--gold)}
+  .mobile-menu{display:block;position:fixed;z-index:22;top:12px;bottom:calc(70px + env(safe-area-inset-bottom));right:12px;left:12px;overflow-y:auto;background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:13px;box-shadow:0 18px 48px #000b}
+  .mobile-menu-head{padding:8px 5px 13px;display:flex;flex-direction:column;gap:3px}.mobile-menu-head b{font-size:17px}.mobile-menu-head small{color:var(--muted);font-size:11px}
+  .mobile-menu button{width:100%;display:flex;align-items:center;gap:12px;text-align:left;background:var(--surface2);color:var(--text);border:1px solid var(--line);padding:10px 12px;border-radius:13px;margin:5px 0;font-weight:700}
+  .mobile-menu button .menu-icon{width:34px;height:34px;flex-basis:34px;font-size:15px}.mobile-menu button.active{border-color:var(--gold);color:var(--gold)}
   .card{padding:16px;border-radius:17px}
 }
 @media(min-width:781px){.mobile-dock,.mobile-menu{display:none!important}}
@@ -366,23 +371,27 @@ body:not(.logged-in) #settingsShortcut{display:none!important}
     <button id="logout" class="btn alt no-print">Keluar</button>
     <div id="appMsg" class="message hidden span12"></div>
   </div>
-  <nav class="desktop-nav no-print" id="nav">
-    <button data-p="home" class="active">Beranda</button>
-    <button data-p="profile">Profil Saya</button>
-    <button data-p="directory">Direktori Anggota</button>
-    <button data-p="members" class="admin hidden">Data Anggota</button>
-    <button data-p="form" class="admin hidden">Formulir Anggota</button>
-    <button data-p="verify" class="admin hidden">Verifikasi</button>
-    <button data-p="card">Kartu Digital</button>
-    <button data-p="agenda">Kalender & Agenda</button>
-    <button data-p="complaints">Layanan Pengaduan</button>
-    <button data-p="documents">Pusat Dokumen</button>
-    <button data-p="dues">Transparansi Keuangan</button>
-    <button data-p="forum">Forum Diskusi</button>
-    <button data-p="news">Berita & Dokumentasi</button>
-    <button data-p="notifications">Notifikasi</button>
-    <button data-p="export" class="admin hidden">Ekspor Excel</button>
-    <button data-p="access" class="admin hidden">Hak Akses</button>
+  <nav class="desktop-nav no-print" id="nav" aria-label="Menu utama">
+    <div class="menu-group-title">RUANG UTAMA</div>
+    <button data-p="home" class="active"><span class="menu-icon">⌂</span><span><b>Beranda</b><small>Ringkasan portal dan aktivitas</small></span><i>›</i></button>
+    <button data-p="profile"><span class="menu-icon">♙</span><span><b>Profil Saya</b><small>Informasi akun dan keanggotaan</small></span><i>›</i></button>
+    <button data-p="directory"><span class="menu-icon">♧</span><span><b>Direktori Anggota</b><small>Kenali rekan seperjuangan</small></span><i>›</i></button>
+    <div class="menu-group-title">ADMINISTRASI KEANGGOTAAN</div>
+    <button data-p="members" class="admin hidden"><span class="menu-icon">▤</span><span><b>Data Anggota</b><small>Kelola data keanggotaan</small></span><i>›</i></button>
+    <button data-p="form" class="admin hidden"><span class="menu-icon">✎</span><span><b>Formulir Anggota</b><small>Tambah atau perbarui data</small></span><i>›</i></button>
+    <button data-p="verify" class="admin hidden"><span class="menu-icon">✓</span><span><b>Verifikasi</b><small>Periksa pendaftaran anggota</small></span><i>›</i></button>
+    <button data-p="card"><span class="menu-icon">▣</span><span><b>Kartu Digital</b><small>E-KTA dan identitas anggota</small></span><i>›</i></button>
+    <div class="menu-group-title">LAYANAN & INFORMASI</div>
+    <button data-p="agenda"><span class="menu-icon">▦</span><span><b>Kalender & Agenda</b><small>Jadwal kegiatan organisasi</small></span><i>›</i></button>
+    <button data-p="complaints" class="member-only"><span class="menu-icon">⚑</span><span><b>Layanan Pengaduan</b><small>Sampaikan aspirasi dan laporan</small></span><i>›</i></button>
+    <button data-p="documents" class="member-only"><span class="menu-icon">▧</span><span><b>Pusat Dokumen</b><small>Arsip dan dokumen organisasi</small></span><i>›</i></button>
+    <button data-p="dues"><span class="menu-icon">Rp</span><span><b>Transparansi Keuangan</b><small>Laporan kas masuk dan keluar</small></span><i>›</i></button>
+    <button data-p="forum" class="member-only"><span class="menu-icon">☷</span><span><b>Forum Diskusi</b><small>Ruang diskusi antaranggota</small></span><i>›</i></button>
+    <button data-p="news" class="member-only"><span class="menu-icon">▣</span><span><b>Berita & Dokumentasi</b><small>Kabar dan dokumentasi kegiatan</small></span><i>›</i></button>
+    <button data-p="notifications" class="member-only"><span class="menu-icon">♧</span><span><b>Notifikasi</b><small>Pemberitahuan portal</small></span><i>›</i></button>
+    <div class="menu-group-title admin hidden">PENGELOLAAN PORTAL</div>
+    <button data-p="export" class="admin hidden"><span class="menu-icon">⇩</span><span><b>Ekspor Excel</b><small>Unduh laporan administrasi</small></span><i>›</i></button>
+    <button data-p="access" class="admin hidden"><span class="menu-icon">⚙</span><span><b>Hak Akses</b><small>Pengaturan peran dan kewenangan</small></span><i>›</i></button>
   </nav>
   <section id="p-home" class="page">
     <div class="grid">
@@ -482,20 +491,16 @@ body:not(.logged-in) #settingsShortcut{display:none!important}
   <button data-p="notifications"><span class="ico">♧</span>Info</button>
   <button id="mobileMore" type="button"><span class="ico">☷</span>Menu</button>
 </nav>
-<div id="mobileMenu" class="mobile-menu hidden no-print">
-  <button data-p="profile" class="member-only">Profil Saya</button>
-  <button data-p="settings" class="member-only">Pengaturan Aplikasi</button>
-  <button data-p="complaints" class="member-only">Layanan Pengaduan</button>
-  <button data-p="documents" class="member-only">Pusat Dokumen</button>
-  <button data-p="dues" class="member-only">Transparansi Keuangan</button>
-  <button data-p="forum" class="member-only">Forum Diskusi</button>
-  <button data-p="news" class="member-only">Berita & Dokumentasi</button>
-  <button data-p="notifications" class="member-only">Notifikasi</button>
-  <button data-p="members" class="admin hidden">Data Anggota</button>
-  <button data-p="form" class="admin hidden">Formulir Anggota</button>
-  <button data-p="verify" class="admin hidden">Verifikasi Pendaftaran</button>
-  <button data-p="export" class="admin hidden">Ekspor Excel</button>
-  <button data-p="access" class="admin hidden">Hak Akses</button>
+<div id="mobileMenu" class="mobile-menu hidden no-print" aria-label="Semua menu">
+  <div class="mobile-menu-head"><b>Semua Menu</b><small>Pilih layanan yang ingin dibuka</small></div>
+  <button data-p="home"><span class="menu-icon">⌂</span>Beranda</button><button data-p="profile" class="member-only"><span class="menu-icon">♙</span>Profil Saya</button>
+  <button data-p="directory"><span class="menu-icon">♧</span>Direktori Anggota</button><button data-p="members" class="admin hidden"><span class="menu-icon">▤</span>Data Anggota</button>
+  <button data-p="form" class="admin hidden"><span class="menu-icon">✎</span>Formulir Anggota</button><button data-p="verify" class="admin hidden"><span class="menu-icon">✓</span>Verifikasi</button>
+  <button data-p="card"><span class="menu-icon">▣</span>Kartu Digital</button><button data-p="agenda"><span class="menu-icon">▦</span>Kalender & Agenda</button>
+  <button data-p="complaints" class="member-only"><span class="menu-icon">⚑</span>Layanan Pengaduan</button><button data-p="documents" class="member-only"><span class="menu-icon">▧</span>Pusat Dokumen</button>
+  <button data-p="dues"><span class="menu-icon">Rp</span>Transparansi Keuangan</button><button data-p="forum" class="member-only"><span class="menu-icon">☷</span>Forum Diskusi</button>
+  <button data-p="news" class="member-only"><span class="menu-icon">▣</span>Berita & Dokumentasi</button><button data-p="notifications" class="member-only"><span class="menu-icon">♧</span>Notifikasi</button>
+  <button data-p="export" class="admin hidden"><span class="menu-icon">⇩</span>Ekspor Excel</button><button data-p="access" class="admin hidden"><span class="menu-icon">⚙</span>Hak Akses</button>
 </div>
 <script>
 (()=>{"use strict";
