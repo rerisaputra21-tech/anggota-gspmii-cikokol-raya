@@ -22,7 +22,7 @@
   --shadow:0 14px 36px rgba(22,44,78,.09)
 }
 *{box-sizing:border-box}
-html{scroll-behavior:auto!important}
+html{scroll-behavior:smooth}
 body{margin:0;background:var(--bg);color:var(--text);font:15px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif;padding-bottom:env(safe-area-inset-bottom)}
 button,input,select,textarea{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 .hidden{display:none!important}
@@ -334,6 +334,26 @@ body:not(.logged-in) #settingsShortcut{display:none!important}
 .page{scroll-margin-top:14px}
 @media(max-width:780px){.page{scroll-margin-top:10px}}
 </style>
+<style>
+
+/* DASHBOARD LAYOUT: menu tetap, konten berganti tanpa perpindahan scroll */
+.dashboard-shell{display:grid;grid-template-columns:270px minmax(0,1fr);align-items:start;gap:20px;margin-top:18px}
+.dashboard-shell #nav{position:sticky!important;top:104px;display:flex!important;flex-direction:column;gap:7px;max-height:calc(100vh - 124px);overflow-y:auto;overscroll-behavior:contain;padding:13px;margin:0;border-radius:18px}
+.dashboard-shell #nav .menu-group-title{padding:13px 4px 4px}
+.dashboard-shell #nav button{width:100%;min-height:54px}
+.dashboard-content{min-width:0;min-height:420px}
+.dashboard-content>.page{width:100%;margin:0}
+.dashboard-content>.page.hidden{display:none!important}
+@media(max-width:780px){
+.dashboard-shell{grid-template-columns:minmax(0,1fr);gap:12px;margin-top:12px}
+.dashboard-shell #nav{position:relative!important;top:auto;display:flex!important;flex-direction:row;flex-wrap:wrap;gap:6px;max-height:190px;overflow-y:auto;padding:9px;margin:0}
+.dashboard-shell #nav .menu-group-title{flex:0 0 100%;padding:7px 2px 1px}
+.dashboard-shell #nav button{flex:1 1 calc(50% - 6px);width:auto;min-width:0;min-height:46px;padding:7px}
+.dashboard-shell #nav button small{display:none}
+.dashboard-content{min-height:320px}
+}
+
+</style>
 </head>
 <body>
 <header class="topbar">
@@ -408,6 +428,7 @@ body:not(.logged-in) #settingsShortcut{display:none!important}
     <button id="logout" class="btn alt no-print">Keluar</button>
     <div id="appMsg" class="message hidden span12"></div>
   </div>
+  <div class="dashboard-shell">
   <nav class="desktop-nav no-print" id="nav" aria-label="Menu utama">
     <div class="menu-group-title">RUANG UTAMA</div>
     <button data-p="home" class="active"><span class="menu-icon">⌂</span><span><b>Beranda</b><small>Ringkasan portal dan aktivitas</small></span><i>›</i></button>
@@ -436,6 +457,7 @@ body:not(.logged-in) #settingsShortcut{display:none!important}
     <button data-p="regulations"><span class="menu-icon">§</span><span><b>Pusat Regulasi</b><small>Referensi aturan ketenagakerjaan</small></span><i>›</i></button>
     <button data-p="academy"><span class="menu-icon">▤</span><span><b>Pendidikan Serikat</b><small>Materi belajar hak pekerja</small></span><i>›</i></button>
   </nav>
+  <div class="dashboard-content">
   <section id="p-home" class="page">
     <div class="grid">
       <div class="stat"><b id="total">—</b><span>Jumlah anggota terdaftar</span></div>
@@ -527,6 +549,9 @@ body:not(.logged-in) #settingsShortcut{display:none!important}
     </div>
   </section>
 </section>
+  </div>
+</div>
+
 <footer class="app-footer">
   <div class="footer-brand"><b>GSPMII APP</b><span>PUK SAT CIKOKOL RAYA</span></div>
   <h3>Kontak Pengurus</h3><p>Untuk kebutuhan administrasi keanggotaan, konsultasi hubungan industrial, pendampingan, maupun penyampaian aspirasi pekerja, silakan menghubungi pengurus melalui saluran resmi berikut.</p>
@@ -628,7 +653,7 @@ if(langSelect){
 $("heroLogin").onclick=()=>{$("loginForm").classList.remove("hidden");auth("loginForm");$("email").focus()};
 $("heroRegister").onclick=()=>auth("registerForm");
 
-$("mobileMore").onclick=()=>{const nav=$("nav");if(nav){nav.scrollIntoView({behavior:"smooth",block:"start"});}};
+$("mobileMore").onclick=()=>{$("nav")?.focus({preventScroll:true});};
 
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 function message(el,s,err=false){el.textContent=s;el.className="message"+(err?" err":"");el.classList.remove("hidden")}
@@ -636,7 +661,7 @@ function auth(mode="loginForm"){$("loginSolidarity").classList.toggle("hidden",m
 $("settingTheme").onclick=()=>{setTheme(document.documentElement.dataset.theme==="dark"?"light":"dark");$("themeDescription").textContent=document.documentElement.dataset.theme==="dark"?"Mode gelap aktif":"Mode terang aktif"};
 $("settingPassword").onclick=async()=>{const pw=prompt("Masukkan kata sandi baru (minimal 8 karakter):");if(!pw)return;if(pw.length<8){alert("Kata sandi minimal 8 karakter.");return}const {error}=await db.auth.updateUser({password:pw});if(error)alert("Gagal mengubah kata sandi: "+error.message);else alert("Kata sandi berhasil diperbarui.")};
 if($("loginTab"))$("loginTab").onclick=()=>auth();$("registerTab").onclick=()=>auth("registerForm");$("forgot").onclick=()=>{$("resetEmail").value=$("email").value;auth("resetForm")};$("backLogin").onclick=()=>auth();
-function page(p){document.body.dataset.page=p;document.querySelectorAll(".page").forEach(x=>x.classList.toggle("hidden",x.id!=="p-"+p));document.querySelectorAll("[data-p]").forEach(x=>x.classList.toggle("active",x.dataset.p===p));$("mobileMenu").classList.add("hidden");if(p==="directory")loadDirectory().catch(e=>message($("appMsg"),"Direktori belum dapat dimuat: "+e.message,true));if(p==="card"){drawCard().catch(e=>message($("appMsg"),"Gagal memuat E-KTA: "+e.message,true));renderMemberQr()}if(p==="complaints")loadComplaints().catch(e=>featureError("complaintRows",e));if(p==="documents")loadDocuments().catch(e=>featureError("documentRows",e));if(p==="dues")loadDues().catch(e=>featureError("duesRows",e));if(p==="forum")loadForum().catch(e=>featureError("forumRows",e));if(p==="news")loadNews().catch(e=>featureError("newsRows",e));if(p==="notifications")loadNotifications().catch(e=>featureError("notificationRows",e));window.scrollTo({top:0,left:0,behavior:"instant"})}
+function page(p){document.body.dataset.page=p;document.querySelectorAll(".page").forEach(x=>x.classList.toggle("hidden",x.id!=="p-"+p));document.querySelectorAll("[data-p]").forEach(x=>x.classList.toggle("active",x.dataset.p===p));$("mobileMenu").classList.add("hidden");if(p==="directory")loadDirectory().catch(e=>message($("appMsg"),"Direktori belum dapat dimuat: "+e.message,true));if(p==="card"){drawCard().catch(e=>message($("appMsg"),"Gagal memuat E-KTA: "+e.message,true));renderMemberQr()}if(p==="complaints")loadComplaints().catch(e=>featureError("complaintRows",e));if(p==="documents")loadDocuments().catch(e=>featureError("documentRows",e));if(p==="dues")loadDues().catch(e=>featureError("duesRows",e));if(p==="forum")loadForum().catch(e=>featureError("forumRows",e));if(p==="news")loadNews().catch(e=>featureError("newsRows",e));if(p==="notifications")loadNotifications().catch(e=>featureError("notificationRows",e));}
 document.querySelectorAll("[data-p],[data-go]").forEach(b=>b.onclick=()=>{let p=b.dataset.p||b.dataset.go;if(["members","form","verify","export","access"].includes(p)&&!admin)return;page(p)});
 const badge=s=>`<span class="pill ${s==="menunggu"?"pending":s==="ditolak"?"rejected":""}">${s==="disetujui"?"Aktif":s==="ditolak"?"Ditolak":"Menunggu"}</span>`;
 async function getMe(){let {data,error}=await db.from("anggota_gspmii").select("*").eq("user_id",user.id).maybeSingle();if(error)throw error;if(!data)throw new Error("Profil anggota belum terbentuk. Hubungi pengurus; jangan membuat profil manual dari browser.");me=data;admin=me.peran==="pengurus"&&me.status_verifikasi==="disetujui"}
