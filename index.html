@@ -35,7 +35,7 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}button:focus-vis
 .brand h1{margin:0;font-size:clamp(15px,3.5vw,21px);line-height:1.2;letter-spacing:.2px;color:#fff}
 .brand p{margin:4px 0 0;color:#c0ccdc;font-size:11px;line-height:1.35}
 .header-login{margin-right:54px;background:#1b2941;border:1px solid #364763;color:#f5f7fb;padding:9px 15px;border-radius:999px;font-weight:800;white-space:nowrap}
-.theme-fab{position:fixed;right:15px;top:calc(env(safe-area-inset-top, 0px) + 16px);z-index:30;width:46px;height:46px;border-radius:50%;border:1px solid #ffffff55;background:#15233d;color:#fff;font-size:20px;box-shadow:0 8px 24px #0006;display:grid;place-items:center}
+.theme-fab{position:static;right:auto;top:auto;z-index:5;width:40px;height:40px;border-radius:50%;border:1px solid #ffffff55;background:#15233d;color:#fff;font-size:20px;box-shadow:0 8px 24px #0006;display:grid;place-items:center}
 .wrap{max-width:1120px;margin:auto;padding:20px 16px 44px}
 .landing-grid{display:grid;grid-template-columns:minmax(0,1.08fr) minmax(310px,.92fr);gap:24px;align-items:center;padding:22px 0 8px}
 .hero-copy{padding:20px 4px}
@@ -259,9 +259,9 @@ body.logged-in #publicIntro,body.logged-in #landingNote{display:none!important}
 
 /* Final sesuai rancangan: halaman publik hanya login, kontrol tema/bahasa, dan naskah solidaritas */
 .public-showcase{display:none!important}
-.login-tools{position:fixed;right:15px;top:calc(env(safe-area-inset-top, 0px) + 16px);z-index:31;display:flex;align-items:center;gap:8px}
-.login-tools select{height:42px;min-width:58px;border-radius:22px;padding:0 9px;background:#15233d;color:#fff;border:1px solid #ffffff55;font-weight:800}
-.login-tools .theme-fab{position:static;width:42px;height:42px}
+.login-tools{position:relative;z-index:5;display:flex;align-items:center;justify-content:flex-end;gap:9px;padding:9px 16px;background:var(--bg);border-bottom:1px solid var(--line)}
+.login-tools select{height:40px;min-width:132px;border-radius:12px;padding:0 12px;background:var(--surface);color:var(--text);border:1px solid var(--line);font-weight:700}
+.login-tools .theme-fab{position:static;width:40px;height:40px}
 #auth.auth-card{margin-top:clamp(18px,6vh,58px)}
 .register-prompt{margin:14px 0 4px;text-align:center;color:#718096;font-size:12px;line-height:1.5}.register-prompt button{display:inline;border:0;background:transparent;color:#23458f;font-size:12px;font-weight:800;text-decoration:underline;padding:3px 4px;min-height:0;cursor:pointer}
 .login-solidarity{margin-top:24px;padding-top:20px;border-top:1px solid #e8edf4;color:#64748b;font-size:13px;line-height:1.8}
@@ -312,7 +312,7 @@ body:not(.logged-in) #settingsShortcut{display:none!important}
 .settings-shortcut{width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:var(--surface3);color:var(--text);font-size:20px;display:inline-flex;align-items:center;justify-content:center;cursor:pointer}
 .settings-shortcut:hover,.settings-shortcut.active{border-color:var(--gold);color:var(--gold)}
 .login-tools{display:flex;align-items:center;gap:7px}
-@media(max-width:680px){.settings-shortcut{width:31px;height:31px;font-size:18px}}
+@media(max-width:680px){.settings-shortcut{width:38px;height:38px;font-size:18px}.login-tools{padding:8px 14px}.login-tools select{min-width:124px;height:38px}.login-tools .theme-fab{width:38px;height:38px}}
 
 .kas-chart-card{background:var(--surface2);border:1px solid var(--line);border-radius:16px;padding:15px;margin:14px 0}
 .kas-chart-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;flex-wrap:wrap}
@@ -541,7 +541,69 @@ body:not(.logged-in) #settingsShortcut{display:none!important}
 const SB="https://iyytbgwjkznngowptsqo.supabase.co",KEY="sb_publishable_rot8WQ443SBPE5hEPLLg4A_a5ix05wh", $=id=>document.getElementById(id);
 let db,user,me,admin=false,rows=[];
 function setTheme(t){document.documentElement.dataset.theme=t;localStorage.setItem("gspmii_theme",t);$("themeBtn").textContent=t==="dark"?"☀️":"🌙";$("themeBtn").setAttribute("aria-label",t==="dark"?"Aktifkan mode terang":"Aktifkan mode gelap");$("themeBtn").title=t==="dark"?"Mode terang":"Mode gelap"}setTheme(localStorage.getItem("gspmii_theme")||"dark");$("themeBtn").onclick=()=>setTheme(document.documentElement.dataset.theme==="dark"?"light":"dark");
-const langSelect=$("languageSelect");if(langSelect){langSelect.value=localStorage.getItem("gspmii_language")||"id";langSelect.onchange=()=>{localStorage.setItem("gspmii_language",langSelect.value);if(langSelect.value==="en"){alert("English preference saved. Some portal content remains in Indonesian.")}else{alert("Bahasa Indonesia dipilih.")}};}
+const langSelect=$("languageSelect");
+const langText={
+ id:{
+  brandSub:"Gabungan Serikat Pekerja Manufaktur Independen Indonesia",
+  menuGroups:["RUANG UTAMA","ADMINISTRASI KEANGGOTAAN","LAYANAN & INFORMASI","PENGELOLAAN PORTAL"],
+  menus:[
+   ["Beranda","Ringkasan portal dan aktivitas"],["Profil Saya","Informasi akun dan keanggotaan"],["Direktori Anggota","Kenali rekan seperjuangan"],
+   ["Data Anggota","Kelola data keanggotaan"],["Formulir Anggota","Tambah atau perbarui data"],["Verifikasi","Periksa pendaftaran anggota"],
+   ["Kartu Digital","E-KTA dan identitas anggota"],["Kalender & Agenda","Jadwal kegiatan organisasi"],["Layanan Pengaduan","Sampaikan aspirasi dan laporan"],
+   ["Pusat Dokumen","Arsip dan dokumen organisasi"],["Transparansi Keuangan","Laporan kas masuk dan keluar"],["Forum Diskusi","Ruang diskusi antaranggota"],
+   ["Berita & Dokumentasi","Kabar dan dokumentasi kegiatan"],["Notifikasi","Pemberitahuan portal"],["Ekspor Excel","Unduh laporan administrasi"],["Hak Akses","Pengaturan peran dan kewenangan"]
+  ],
+  settings:"Pengaturan",language:"Bahasa",themeLight:"Aktifkan mode terang",themeDark:"Aktifkan mode gelap"
+ },
+ en:{
+  brandSub:"Independent Indonesian Manufacturing Workers Union",
+  menuGroups:["MAIN AREA","MEMBERSHIP ADMINISTRATION","SERVICES & INFORMATION","PORTAL MANAGEMENT"],
+  menus:[
+   ["Home","Portal overview and activity"],["My Profile","Account and membership details"],["Member Directory","Meet fellow members"],
+   ["Member Data","Manage membership records"],["Member Form","Add or update member details"],["Verification","Review membership applications"],
+   ["Digital ID Card","Digital membership identity"],["Calendar & Events","Organization activity schedule"],["Member Complaints","Submit concerns and reports"],
+   ["Document Center","Organization files and archives"],["Financial Transparency","Income and expense reports"],["Discussion Forum","Member discussion space"],
+   ["News & Documentation","News and activity documentation"],["Notifications","Portal notifications"],["Export to Excel","Download administration reports"],["Access Control","Roles and permissions"]
+  ],
+  settings:"Settings",language:"Language",themeLight:"Switch to light mode",themeDark:"Switch to dark mode"
+ }
+};
+function applyLanguage(code){
+ const t=langText[code]||langText.id;
+ const groups=[...document.querySelectorAll("#nav .menu-group-title")];
+ groups.forEach((el,i)=>{if(t.menuGroups[i])el.textContent=t.menuGroups[i]});
+ const order=["home","profile","directory","members","form","verify","card","agenda","complaints","documents","dues","forum","news","notifications","export","access"];
+ order.forEach((key,i)=>{
+  document.querySelectorAll(`#nav [data-p="${key}"],#mobileMenu [data-p="${key}"]`).forEach(btn=>{
+   const title=btn.querySelector("b")||btn.childNodes[btn.childNodes.length-1];
+   const small=btn.querySelector("small");
+   if(btn.closest("#nav")){
+    if(title&&title.nodeType===1)title.textContent=t.menus[i][0];
+    if(small)small.textContent=t.menus[i][1];
+   }else{
+    const icon=btn.querySelector(".menu-icon");
+    btn.textContent="";
+    if(icon)btn.appendChild(icon);
+    btn.append(" "+t.menus[i][0]);
+   }
+  });
+ });
+ const brand=document.querySelector(".brand-copy p");
+ if(brand)brand.textContent=t.brandSub;
+ const settings=$("settingsShortcut");
+ if(settings){settings.title=t.settings;settings.setAttribute("aria-label",t.settings)}
+ if(langSelect)langSelect.setAttribute("aria-label",t.language);
+ $("themeBtn").title=document.documentElement.dataset.theme==="dark"?t.themeLight:t.themeDark;
+ $("themeBtn").setAttribute("aria-label",$("themeBtn").title);
+ document.documentElement.lang=code;
+ localStorage.setItem("gspmii_language",code);
+}
+if(langSelect){
+ langSelect.innerHTML='<option value="id">Bahasa Indonesia</option><option value="en">English</option>';
+ langSelect.value=localStorage.getItem("gspmii_language")||"id";
+ applyLanguage(langSelect.value);
+ langSelect.onchange=()=>applyLanguage(langSelect.value);
+}
 $("heroLogin").onclick=()=>{$("loginForm").classList.remove("hidden");auth("loginForm");$("email").focus()};
 $("heroRegister").onclick=()=>auth("registerForm");
 
