@@ -375,6 +375,12 @@ body:not(.logged-in) #settingsShortcut{display:none!important}
 </style>
 
 
+
+<style>
+.profile-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+@media(max-width:560px){.profile-actions .btn{flex:1 1 100%;width:100%}}
+</style>
+
 </head>
 <body>
 <header class="topbar">
@@ -414,7 +420,7 @@ body:not(.logged-in) #settingsShortcut{display:none!important}
     <form id="loginForm">
       <div class="field"><label for="email">Email</label><input id="email" type="email" autocomplete="username" placeholder="nama@email.com" required></div>
       <div class="field"><label for="password">Kata sandi</label><input id="password" type="password" autocomplete="current-password" placeholder="Masukkan kata sandi" required></div>
-      <div class="actions"><button class="btn" type="submit">Masuk</button><button class="btn alt" type="button" id="forgot">Lupa kata sandi</button></div>
+      <div class="actions"><button class="btn" type="submit">Login</button><button class="btn alt" type="button" id="forgot">Lupa kata sandi</button></div>
     </form>
     <div id="registerPrompt" class="register-prompt">Belum menjadi anggota? <button id="registerTab" type="button">Daftar anggota baru</button></div>
     <form id="registerForm" class="hidden">
@@ -446,7 +452,7 @@ body:not(.logged-in) #settingsShortcut{display:none!important}
 <section id="app" class="hidden">
   <div class="userbar">
     <div><div class="userrole">RUANG KEANGGOTAAN DIGITAL</div><h2 id="welcome">Halo, Anggota</h2><div id="userEmail" class="muted"></div></div>
-    <button id="logout" class="btn alt no-print">Keluar</button>
+    <button id="logout" class="btn alt no-print">Logout</button>
     <div id="appMsg" class="message hidden span12"></div>
   </div>
   <div class="dashboard-shell">
@@ -541,7 +547,7 @@ body:not(.logged-in) #settingsShortcut{display:none!important}
 <div class="row"><div class="field"><label>Unit kerja / departemen</label><input id="myUnit"></div><div class="field"><label>Jabatan</label><input id="myPosition"></div></div>
 <div class="field"><label>Status pekerja</label><select id="myWorkerStatus"><option value="">Pilih status</option><option value="PKWT">PKWT</option><option value="PKWTT">PKWTT</option></select></div>
 <div class="notice">Nomor anggota, status verifikasi, dan hak akses ditetapkan oleh pengurus. Data tersebut tidak dapat diubah melalui formulir ini.</div>
-<button class="btn" id="saveProfile">Simpan perubahan</button></form></div></section>
+<div class="actions profile-actions"><button class="btn" id="saveProfile">Simpan perubahan</button><button class="btn alt" type="button" id="downloadProfilePdf">Unduh Profil PDF</button></div></form></div></section>
   <section id="p-members" class="page hidden"><div class="card"><h2>Data Anggota</h2><div class="search"><input id="search" placeholder="Cari nama, email, nomor, unit kerja, jabatan"><button class="btn" data-go="form">Tambah anggota</button></div><div id="memberRows"></div></div></section>
   <section id="p-form" class="page hidden"><div class="card"><h2 id="formTitle">Formulir Anggota</h2><form id="memberForm"><input id="fUid" type="hidden"><div class="field"><label>Nama lengkap</label><input id="fName" required></div><div class="field"><label>Nomor Anggota (diterbitkan pengurus)</label><input id="fMemberNo" placeholder="Contoh: 10.6.006"></div><div class="field"><label>Nomor HP</label><input id="fPhone"></div><div class="row"><div class="field"><label>Unit kerja</label><input id="fUnit" placeholder="Toko / DC / Kantor"></div><div class="field"><label>Jabatan anggota</label><input id="fPosition" placeholder="Anggota / Pengurus"></div></div><div class="field"><label>NIK anggota (akses terbatas)</label><input id="fNik" inputmode="numeric" maxlength="16"></div><div class="field"><label>Alamat</label><textarea id="fAddress"></textarea></div><p class="notice">Status verifikasi dikelola melalui menu Verifikasi. Hak akses pengurus tidak dapat diubah dari formulir ini.</p><button class="btn">Simpan data</button> <button class="btn alt" type="button" id="clearForm">Kosongkan</button></form></div></section>
   <section id="p-verify" class="page hidden"><div class="card"><h2>Verifikasi Calon Anggota</h2><p class="sub">Pengurus memeriksa pendaftaran sebelum status menjadi aktif.</p><div id="verifyRows"></div></div></section>
@@ -714,6 +720,55 @@ async function drawCard(){if(me.status_verifikasi!=="disetujui"){$("card").inner
 $("print").onclick=()=>window.print();
 let selectedProfilePhoto=null;
 $("myPhoto").onchange=e=>{const f=e.target.files?.[0];if(!f){selectedProfilePhoto=null;return}if(!["image/jpeg","image/png","image/webp"].includes(f.type)){alert("Gunakan foto JPG, PNG, atau WEBP.");e.target.value="";return}if(f.size>5*1024*1024){alert("Ukuran foto maksimal 5 MB.");e.target.value="";return}selectedProfilePhoto=f;const reader=new FileReader();reader.onload=()=>$("myPhotoPreview").src=reader.result;reader.readAsDataURL(f)};
+
+function downloadSavedProfilePdf(){
+  if(!me){message($("appMsg"),"Data profil belum tersedia.",true);return;}
+  const w=window.open("","_blank");
+  if(!w){message($("appMsg"),"Browser memblokir jendela PDF. Izinkan pop-up untuk situs ini lalu coba lagi.",true);return;}
+  const date=v=>{if(!v)return "-";const d=new Date(v+"T00:00:00");return Number.isNaN(d.getTime())?String(v):d.toLocaleDateString("id-ID",{day:"2-digit",month:"long",year:"numeric"});};
+  const rows=[
+    ["Nama lengkap",me.nama_lengkap],["Email",user?.email],["Nomor anggota",me.nomor_anggota],
+    ["Status keanggotaan",me.status_verifikasi],["Tempat lahir",me.tempat_lahir],["Tanggal lahir",date(me.tanggal_lahir)],
+    ["Jenis kelamin",me.jenis_kelamin],["Agama",me.agama],["NIK",me.nik],["Nomor HP / WhatsApp",me.no_hp],
+    ["Alamat lengkap",me.alamat],["Nama perusahaan",me.nama_perusahaan],["Alamat perusahaan",me.alamat_perusahaan],
+    ["Nomor induk karyawan",me.no_induk_karyawan],["Tanggal masuk kerja",date(me.tanggal_masuk_kerja)],
+    ["Unit kerja / departemen",me.unit_kerja],["Jabatan",me.jabatan],["Status pekerja",me.status_pekerja]
+  ];
+  const safe=v=>String(v??"-").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+  const photo=$("myPhotoPreview")?.src||"";
+  const body=rows.map(([k,v])=>`<tr><th>${safe(k)}</th><td>${safe(v||"-")}</td></tr>`).join("");
+  w.document.open();
+  w.document.write(`<!doctype html><html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Profil Anggota GSPMII - ${safe(me.nama_lengkap)}</title><style>
+  *{box-sizing:border-box}body{font-family:Arial,sans-serif;color:#172033;margin:0;background:#fff}
+  .sheet{max-width:820px;margin:28px auto;padding:34px 38px;border:1px solid #d7deea}
+  .head{display:flex;align-items:center;gap:18px;border-bottom:3px solid #b99a52;padding-bottom:18px}
+  .logo{width:64px;height:64px;border-radius:50%;background:#10213e;color:#e5c56d;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:17px}
+  .brand h1{font-size:20px;margin:0 0 5px;color:#10213e;letter-spacing:.6px}.brand p{margin:0;color:#65728a;font-size:12px}
+  .title{display:flex;justify-content:space-between;align-items:center;margin:24px 0 16px}
+  .title h2{font-size:19px;margin:0;color:#10213e}.title small{color:#65728a}
+  .person{display:flex;align-items:center;gap:18px;margin-bottom:18px;padding:14px;background:#f3f6fb;border-radius:10px}
+  .person img{width:84px;height:84px;border-radius:50%;object-fit:cover;border:2px solid #b99a52}
+  .person b{font-size:17px}.person span{display:block;margin-top:6px;color:#68758a;font-size:12px}
+  h3{font-size:13px;color:#9a7b35;margin:22px 0 8px;text-transform:uppercase;letter-spacing:.7px}
+  table{width:100%;border-collapse:collapse;font-size:12px}th,td{text-align:left;padding:9px 11px;border-bottom:1px solid #e6eaf0;vertical-align:top}
+  th{width:34%;color:#536078;font-weight:600;background:#f7f9fc}td{color:#172033;white-space:pre-wrap;word-break:break-word}
+  .foot{margin-top:26px;padding-top:14px;border-top:1px solid #dce2ec;display:flex;justify-content:space-between;gap:12px;color:#68758a;font-size:10px}
+  .notice{margin-top:16px;font-size:10px;color:#68758a;line-height:1.5}
+  @page{size:A4;margin:14mm}@media print{body{background:#fff}.sheet{border:0;margin:0;padding:0;max-width:none}.no-print{display:none}}
+  </style></head><body><main class="sheet">
+  <header class="head"><div class="logo">GSPMII</div><div class="brand"><h1>GABUNGAN SERIKAT PEKERJA MANUFAKTUR INDEPENDEN INDONESIA</h1><p>PUK SAT CIKOKOL RAYA · PORTAL KEANGGOTAAN DIGITAL</p></div></header>
+  <div class="title"><h2>PROFIL ANGGOTA</h2><small>Dokumen data keanggotaan</small></div>
+  <section class="person">${photo?`<img src="${safe(photo)}" alt="Foto anggota">`:""}<div><b>${safe(me.nama_lengkap||"-")}</b><span>Nomor Anggota: ${safe(me.nomor_anggota||"Belum diterbitkan")}</span><span>Status: ${safe(me.status_verifikasi||"-")}</span></div></section>
+  <h3>Identitas Pribadi</h3><table>${rows.slice(0,11).map(([k,v])=>`<tr><th>${safe(k)}</th><td>${safe(v||"-")}</td></tr>`).join("")}</table>
+  <h3>Data Pekerjaan</h3><table>${rows.slice(11).map(([k,v])=>`<tr><th>${safe(k)}</th><td>${safe(v||"-")}</td></tr>`).join("")}</table>
+  <p class="notice">Dokumen ini dibuat dari data profil yang tersimpan pada Portal Keanggotaan Digital GSPMII PUK SAT CIKOKOL RAYA. Pastikan informasi telah diperiksa sebelum digunakan sebagai dokumen administrasi.</p>
+  <footer class="foot"><span>GSPMII · PUK SAT CIKOKOL RAYA</span><span>Dicetak: ${new Date().toLocaleString("id-ID")}</span></footer>
+  <div class="no-print" style="margin-top:20px;text-align:center"><button onclick="window.print()">Cetak / Simpan sebagai PDF</button></div>
+  </main><script>window.onload=()=>setTimeout(()=>window.print(),500);<\/script></body></html>`);
+  w.document.close();
+}
+$("downloadProfilePdf").onclick=downloadSavedProfilePdf;
+
 $("profileForm").onsubmit=async e=>{e.preventDefault();const btn=$("saveProfile");btn.disabled=true;btn.textContent="Menyimpan...";try{
  let photoPath=me.foto_url||null;
  if(selectedProfilePhoto){const ext=selectedProfilePhoto.type==="image/png"?"png":selectedProfilePhoto.type==="image/webp"?"webp":"jpg";photoPath=`${user.id}/profil-${Date.now()}.${ext}`;const {error:upErr}=await db.storage.from("foto_anggota").upload(photoPath,selectedProfilePhoto,{contentType:selectedProfilePhoto.type,upsert:false});if(upErr)throw upErr;}
