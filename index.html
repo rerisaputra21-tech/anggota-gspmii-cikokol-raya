@@ -108,13 +108,17 @@ th{background:var(--surface2);color:var(--muted);font-size:11px;text-transform:u
 .membercard{border-top:9px solid #c62828;border-bottom:9px solid #c62828}.membercard header{position:static;background:linear-gradient(120deg,#08172e,#174c7c);padding:16px;color:#fff}
 .membercard .body{padding:20px;color:#17263b}
 .membercard .foot{padding:11px;background:#f1f4f8;font-size:11px;color:#4f6076}
-footer{text-align:center;color:var(--muted);font-size:12px;padding:28px 18px 110px}
+footer{text-align:center;color:var(--muted);font-size:12px;padding:28px 18px 150px}
+@media(max-width:780px){
+  footer{padding-bottom:calc(190px + env(safe-area-inset-bottom))}
+  .mobile-dock{min-height:66px}
+}
 .mobile-dock,.mobile-menu{display:none}
 @media(max-width:780px){
   .topbar{padding:10px 72px 10px 13px}
   .brand-logo{width:54px;height:54px;flex-basis:54px}
   .header-login{padding:8px 11px;font-size:12px}
-  .wrap{padding:12px 14px 115px}
+  .wrap{padding:12px 14px calc(190px + env(safe-area-inset-bottom))}
   .landing-grid{grid-template-columns:1fr;gap:12px;padding-top:13px}
   .hero-copy{padding:8px 2px 5px}
   .hero-copy h2{font-size:clamp(34px,9vw,46px);margin:18px 0 13px}
@@ -128,14 +132,44 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:28px 18px 110
   .span6{grid-column:span 12}
   .quick{grid-template-columns:repeat(2,minmax(0,1fr))}
   .row{grid-template-columns:1fr}
-  .desktop-nav{display:grid;grid-template-columns:1fr;position:static;gap:7px;padding:12px;margin-bottom:15px}
+  /* HP: seluruh menu utama tetap terlihat, ringkas, dan tidak menimpa konten.
+     Menu berada di alur halaman sebelum dashboard/isi Beranda. */
+  .desktop-nav{
+    display:grid!important;
+    position:relative!important;
+    top:auto!important;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:7px;
+    padding:10px;
+    margin:0 0 14px;
+    border-radius:17px;
+    z-index:1;
+  }
+  .desktop-nav .menu-group-title{
+    padding:8px 2px 1px;
+    font-size:9px;
+  }
+  .desktop-nav button{
+    min-height:54px;
+    padding:8px;
+    gap:8px;
+    border-radius:12px;
+  }
+  .desktop-nav button .menu-icon{
+    width:30px;height:30px;flex-basis:30px;border-radius:9px;font-size:14px;
+  }
+  .desktop-nav button b{font-size:11px;line-height:1.25}
+  .desktop-nav button small{font-size:9px;line-height:1.25}
+  .desktop-nav button i{font-size:16px}
+  .desktop-nav button>span:nth-child(2){gap:2px}
   .userbar{padding:15px;border-radius:17px}
+  #nav{scroll-margin-top:12px}
   .search{flex-direction:column;align-items:stretch}
   .mobile-dock{position:fixed;display:flex;left:0;right:0;bottom:0;z-index:20;justify-content:space-around;gap:3px;background:rgba(12,22,43,.97);backdrop-filter:blur(14px);border-top:1px solid #2a3954;padding:8px 6px calc(8px + env(safe-area-inset-bottom));box-shadow:0 -8px 28px #0004}
   .mobile-dock button{border:0;background:transparent;color:#bdc8d9;min-width:0;flex:1;padding:5px 2px;border-radius:10px;font-size:10px;font-weight:700;display:flex;flex-direction:column;align-items:center;gap:2px}
   .mobile-dock button .ico{font-size:21px;line-height:1.2}
   .mobile-dock button.active{color:var(--gold)}
-  .mobile-menu{display:block;position:fixed;z-index:22;top:12px;bottom:calc(70px + env(safe-area-inset-bottom));right:12px;left:12px;overflow-y:auto;background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:13px;box-shadow:0 18px 48px #000b}
+  .mobile-menu{display:none!important}
   .mobile-menu-head{padding:8px 5px 13px;display:flex;flex-direction:column;gap:3px}.mobile-menu-head b{font-size:17px}.mobile-menu-head small{color:var(--muted);font-size:11px}
   .mobile-menu button{width:100%;display:flex;align-items:center;gap:12px;text-align:left;background:var(--surface2);color:var(--text);border:1px solid var(--line);padding:10px 12px;border-radius:13px;margin:5px 0;font-weight:700}
   .mobile-menu button .menu-icon{width:34px;height:34px;flex-basis:34px;font-size:15px}.mobile-menu button.active{border-color:var(--gold);color:var(--gold)}
@@ -511,7 +545,7 @@ const langSelect=$("languageSelect");if(langSelect){langSelect.value=localStorag
 $("heroLogin").onclick=()=>{$("loginForm").classList.remove("hidden");auth("loginForm");$("email").focus()};
 $("heroRegister").onclick=()=>auth("registerForm");
 
-$("mobileMore").onclick=()=>{$("mobileMenu").classList.toggle("hidden")};
+$("mobileMore").onclick=()=>{const nav=$("nav");if(nav){nav.scrollIntoView({behavior:"smooth",block:"start"});}};
 
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 function message(el,s,err=false){el.textContent=s;el.className="message"+(err?" err":"");el.classList.remove("hidden")}
